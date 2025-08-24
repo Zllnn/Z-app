@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import router from '@/router'
 import './style.css'
 import App from './App.vue'
-import { Button } from 'vant'
+import { Button, Form, Field, Toast, Icon } from 'vant'
 import 'lib-flexible/flexible'
 import '@/common/style/theme.css'
 
@@ -10,8 +10,7 @@ import '@/common/style/theme.css'
 const app = createApp(App)
 //注册路由
 app.use(router)
-
 //注册组件
-app.use(Button)
+app.use(Form).use(Field).use(Toast).use(Button).use(Icon)
 //挂载vue实例
 app.mount('#app')
