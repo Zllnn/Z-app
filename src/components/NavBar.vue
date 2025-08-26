@@ -10,7 +10,7 @@
         <span>分类</span>
       </router-link>
       <router-link tag="li" class="nav-list-item" to="cart">
-        <i class="iconfont icon-gouwuche"></i>
+        <i ><van-icon name="shopping-cart-o" :badge="!cart.count ? '' : cart.count" /></i>
         <span>购物车</span>
       </router-link>
       <router-link tag="li" class="nav-list-item" to="user">
@@ -21,9 +21,21 @@
   </div>
 </template>
 
+<script setup>
+import { onMounted } from 'vue'
+import { useCartStore } from '@/stores/cart'
+import { getLocal } from '@/common/js/utils'
+const cart = useCartStore()
+onMounted(() => {
+  const token = getLocal('token')
+  if (token) {
+    cart.updateCart()
+  }
+})
+</script>
+
 <style lang="less" scoped>
 @import '../common/style/mixin';
-
 .nav-bar {
   position: fixed;
   left: 0;

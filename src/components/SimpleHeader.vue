@@ -1,8 +1,8 @@
 <template>
   <header class="simple-header">
-    <i class="nbicon nbfanhui" @click="goBack"></i>
+    <i class="iconfont icon-fanhui" @click="goBack"></i>
     <div class="simple-header-title">{{ props.name }}</div>
-    <i class="nbicon nbmore"></i>
+    <i class="iconfont icon-more"></i>
   </header>
 </template>
 

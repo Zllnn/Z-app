@@ -13,6 +13,7 @@
     "axios": "^1.11.0",
     "better-scroll": "2.3.0",
     "lib-flexible": "^0.3.2",
+    "pinia": "^3.0.3",
     "vant": "^4.9.21",
     "vue": "^3.5.18",
     "vue-router": "^4.5.1"

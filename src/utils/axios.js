@@ -23,7 +23,7 @@ axios.interceptors.response.use(res => {
     if (res.data.message) showFailToast(res.data.message)
     if (res.data.resultCode == 416) {
       // 返回 416 代表没有登录状态，路由跳转到/login 页面
-      router.push({ path: '/login' })
+      // router.push({ path: '/login' })
     }
     if (res.data.data && window.location.hash == '#/login') {
       setLocal('token', res.data.data)
