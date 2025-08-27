@@ -19,3 +19,8 @@ export function logout() {
 export function register(params) {
   return axios.post('/user/register', params);
 }
+
+//用户信息编辑
+export function EditUserInfo(params) {
+  return axios.put('/user/info', params)
+}

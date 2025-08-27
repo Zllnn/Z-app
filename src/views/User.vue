@@ -12,19 +12,19 @@
       </div>
     </div>
     <ul class="user-list">
-      <li>
+      <li class="van-hairline--bottom" @click="goTo('/order')">
         <span>我的订单</span>
         <van-icon name="arrow" />
       </li>
-      <li>
+      <li class="van-hairline--bottom" @click="goTo('/setting')">
         <span>账号管理</span>
         <van-icon name="arrow" />
       </li>
-      <li>
+      <li class="van-hairline--bottom" @click="goTo('/address', { from: 'mine' })">
         <span>地址管理</span>
         <van-icon name="arrow" />
       </li>
-      <li>
+      <li @click="goTo('/about')">
         <span>关于我们</span>
         <van-icon name="arrow" />
       </li>
@@ -35,6 +35,8 @@
 import { reactive, onMounted } from 'vue'
 import sHeader from '@/components/SimpleHeader.vue'
 import { getUserInfo } from '@/service/user'
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const state = reactive({
   user: {} // 声明用户变量
 })
@@ -42,6 +44,10 @@ onMounted(async () => {
   // const { data } = await getUserInfo() // 获取用户信息
   // state.user = data
 })
+
+const goTo = (r, query) => {
+  router.push({ path: r, query: query || {} })
+}
 </script>
 
 <style lang="less" scoped>
