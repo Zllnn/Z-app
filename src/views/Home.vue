@@ -27,10 +27,10 @@
 
     <!-- 首页下部，推荐 -->
     <div class="good">
-      <header class="good-header">新品上线</header>
+      <header class="good-header">热门推荐</header>
       <div class="good-box">
         <div class="good-item" v-for="item in state.newGoodses" :key="item.goodsId" @click="goToDetail(item)">
-          <img :src="$filters.prefix(item.goodsCoverImg)" alt="">
+          <img :src="item.goodsCoverImg" alt="">
           <div class="good-desc">
             <div class="title">{{ item.goodsName }}</div>
             <div class="price">¥ {{ item.sellingPrice }}</div>
@@ -39,10 +39,11 @@
       </div>
     </div>
     <div class="good">
-      <header class="good-header">热门商品</header>
+      <header class="good-header">二手好物</header>
       <div class="good-box">
         <div class="good-item" v-for="item in state.hots" :key="item.goodsId" @click="goToDetail(item)">
-          <img :src="$filters.prefix(item.goodsCoverImg)" alt="">
+          <!-- <img :src="$filters.prefix(item.goodsCoverImg)" alt=""> -->
+          <img :src="item.goodsCoverImg" alt="">
           <div class="good-desc">
             <div class="title">{{ item.goodsName }}</div>
             <div class="price">¥ {{ item.sellingPrice }}</div>
@@ -51,10 +52,11 @@
       </div>
     </div>
     <div class="good" :style="{ paddingBottom: '100px'}">
-      <header class="good-header">最新推荐</header>
+      <header class="good-header">最新上架</header>
       <div class="good-box">
         <div class="good-item" v-for="item in state.recommends" :key="item.goodsId" @click="goToDetail(item)">
-          <img :src="$filters.prefix(item.goodsCoverImg)" alt="">
+          <!-- <img :src="$filters.prefix(item.goodsCoverImg)" alt=""> -->
+          <img :src="item.goodsCoverImg" alt="">
           <div class="good-desc">
             <div class="title">{{ item.goodsName }}</div>
             <div class="price">¥ {{ item.sellingPrice }}</div>
@@ -76,55 +78,145 @@ const router = useRouter()
 const goToDetail = (item) => {
   router.push({ path: `/product/${item.goodsId}` })
 }
+
+const tips = () => {
+  showToast('功能开发中，敬请期待')
+}
 const state = reactive({
   isLogin: false, // 是否已登录
-  swiperList: [], // 轮播图列表
+  swiperList: [
+    {
+      carouselId: 'swiper001',
+      imgUrl: '/images/home/swiper1.jpg',
+      redirectUrl: '/product/swiper001'
+    },
+    {
+      carouselId: 'swiper002',
+      imgUrl: '/images/home/swiper2.jpg',
+      redirectUrl: '/product/swiper002'
+    },
+    {
+      carouselId: 'swiper003',
+      imgUrl: '/images/home/swiper3.jpg',
+      redirectUrl: '/product/swiper003'
+    }
+  ], // 轮播图列表
   categoryList: [  //中部导航栏
     {
-      name: '新蜂超市',
-      imgUrl: '//s.weituibao.com/1583585285461/cs.png',
+      name: '校园超市',
+      imgUrl: '/images/home/category1.jpg',
       categoryId: 100001
-    }, {
-      name: '新蜂服饰',
-      imgUrl: '//s.weituibao.com/1583585285468/fs.png',
-      categoryId: 100003
-    }, {
-      name: '全球购',
-      imgUrl: '//s.weituibao.com/1583585285470/qq.png',
+    },
+    {
+      name: '校园地图',
+      imgUrl: '/images/home/category2.jpg',
       categoryId: 100002
-    }, {
-      name: '新蜂生鲜',
-      imgUrl: '//s.weituibao.com/1583585285472/sx.png',
-      categoryId: 100004
-    }, {
-      name: '新蜂到家',
-      imgUrl: '//s.weituibao.com/1583585285467/dj.png',
+    }, 
+     {
+      name: '快递服务',
+      imgUrl: '/images/home/category3.jpg',
       categoryId: 100005
     }, {
-      name: '充值缴费',
-      imgUrl: '//s.weituibao.com/1583585285465/cz.png',
+      name: '校园卡充值',
+      imgUrl: '/images/home/category4.jpg',
       categoryId: 100006
     }, {
-      name: '9.9元拼',
-      imgUrl: '//s.weituibao.com/1583585285469/pt.png',
+      name: '9.9拼好物',
+      imgUrl: '/images/home/category5.jpg',
       categoryId: 100007
     }, {
-      name: '领劵',
-      imgUrl: '//s.weituibao.com/1583585285468/juan.png',
-      categoryId: 100008
+      name: '9.9拼好物',
+      imgUrl: '/images/home/category6.jpg',
+      categoryId: 100007
     }, {
-      name: '省钱',
-      imgUrl: '//s.weituibao.com/1583585285471/sq.png',
+      name: '9.9拼好物',
+      imgUrl: '/images/home/category7.jpg',
+      categoryId: 100007
+    },
+    {
+      name: '敬请期待',
+      imgUrl: '/images/home/category8.jpg',
       categoryId: 100009
-    }, {
-      name: '全部',
-      imgUrl: '//s.weituibao.com/1583585285470/qb.png',
-      categoryId: 100010
-    }
+    },
   ],
-  hots: [], // 新品上线
-  newGoodses: [], // 热门商品
-  recommends: [], // 最新推荐
+  hots: [
+    {
+      goodsId: 'hot001',
+      goodsName: '九成新自行车',
+      goodsCoverImg: '/images/home/hot1.jpg',
+      sellingPrice: 299
+    },
+    {
+      goodsId: 'hot002',
+      goodsName: '考研资料全套',
+      goodsCoverImg: '/images/home/hot2.jpg',
+      sellingPrice: 89
+    },
+    {
+      goodsId: 'hot003',
+      goodsName: '宿舍小冰箱',
+      goodsCoverImg: '/images/home/hot3.jpg',
+      sellingPrice: 199
+    },
+    {
+      goodsId: 'hot004',
+      goodsName: '二手吉他',
+      goodsCoverImg: '/images/home/hot4.jpg',
+      sellingPrice: 399
+    }
+  ], // 二手好物
+  newGoodses: [
+    {
+      goodsId: 'new001',
+      goodsName: '二手iPhone 12',
+      goodsCoverImg: '/images/home/new1.jpg',
+      sellingPrice: 2499
+    },
+    {
+      goodsId: 'new002',
+      goodsName: '笔记本电脑',
+      goodsCoverImg: '/images/home/new2.jpg',
+      sellingPrice: 1899
+    },
+    {
+      goodsId: 'new003',
+      goodsName: '宿舍台灯',
+      goodsCoverImg: '/images/home/new3.jpg',
+      sellingPrice: 59
+    },
+    {
+      goodsId: 'new004',
+      goodsName: '健身卡',
+      goodsCoverImg: '/images/home/new4.jpg',
+      sellingPrice: 199
+    }
+  ], // 热门推荐
+  recommends: [
+    {
+      goodsId: 'rec001',
+      goodsName: '蓝牙耳机',
+      goodsCoverImg: '/images/home/rec1.jpg',
+      sellingPrice: 129
+    },
+    {
+      goodsId: 'rec002',
+      goodsName: '宿舍电饭煲',
+      goodsCoverImg: '/images/home/rec2.jpg',
+      sellingPrice: 89
+    },
+    {
+      goodsId: 'rec003',
+      goodsName: '游戏手柄',
+      goodsCoverImg: '/images/home/rec3.jpg',
+      sellingPrice: 79
+    },
+    {
+      goodsId: 'rec004',
+      goodsName: '课外书籍',
+      goodsCoverImg: '/images/home/rec4.jpg',
+      sellingPrice: 29
+    }
+  ], // 最新上架
   headerScroll: false, // 滚动透明判断
 })
 onMounted(async () => {
@@ -132,18 +224,18 @@ onMounted(async () => {
   if (token) {
     state.isLogin = true
   }
-  showLoadingToast({
-    message: '加载中...',
-    forbidClick: true //是否在加载弹窗时，禁止点击
-  });
-  const { data } = await getHome()
-  //获取数据赋值
-  state.swiperList = data.carousels
-  state.swiperList = data.carousels
-  state.newGoodses = data.newGoodses
-  state.hots = data.hotGoodses
-  state.recommends = data.recommendGoodses
-  closeToast()
+  // showLoadingToast({
+  //   message: '加载中...',
+  //   forbidClick: true //是否在加载弹窗时，禁止点击
+  // });
+  // const { data } = await getHome()
+  // //获取数据赋值
+  // state.swiperList = data.carousels
+  // state.swiperList = data.carousels
+  // state.newGoodses = data.newGoodses
+  // state.hots = data.hotGoodses
+  // state.recommends = data.recommendGoodses
+  // closeToast()
 })
 
 // 必须要等到页面DOM渲染结束后再执行下面的方法，否则无效 ，对滚动条监听
