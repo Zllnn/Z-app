@@ -160,7 +160,7 @@ const onSubmit = async (values) => {
   // background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(255, 255, 255, 0.8) 100%);
   background-image: 
     // linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%),
-    url('https://picsum.photos/1920/1080?random=100');
+    url('/images/bg.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

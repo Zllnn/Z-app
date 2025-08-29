@@ -5,7 +5,7 @@ export function getCategory() {
 }
 
 export function search(params) {
-  return axios.get('/search', { params });
+  // return axios.get('/search', { params });
 }
 
 //获取商品详情
