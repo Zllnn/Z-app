@@ -1,7 +1,9 @@
 <template>
   <div class="product-detail">
+    <!-- 商品详情头部 -->
     <s-header :name="'商品详情'"></s-header>
     <div class="detail-content">
+      <!-- 商品轮播图 -->
       <div class="detail-swipe-wrap">
         <van-swipe class="my-swipe" indicator-color="#1baeae">
           <van-swipe-item v-for="(item, index) in state.detail.goodsCarouselList" :key="index">
@@ -9,11 +11,12 @@
           </van-swipe-item>
         </van-swipe>
       </div>
+      <!-- 商品信息 -->
       <div class="product-info">
         <div class="product-title">
           {{ state.detail.goodsName }}
         </div>
-        <div class="product-desc">免邮费 顺丰快递</div>
+        <div class="product-desc">免费送到宿舍</div>
         <div class="product-price">
           <span>¥{{ state.detail.sellingPrice }}</span>
         </div>
@@ -25,11 +28,12 @@
           <li>安装服务</li>
           <li>常见问题</li>
         </ul>
+        <!-- 商品详情，此处接收后端返回的富文本 -->
         <div class="product-content" v-html="state.detail.goodsDetailContent"></div>
       </div>
     </div>
     <van-action-bar>
-      <van-action-bar-icon icon="chat-o" text="客服" />
+      <van-action-bar-icon icon="chat-o" text="管理员" />
       <!--通过 cart.count 获取购物车的数量，赋值给模板-->
       <van-action-bar-icon icon="cart-o" :badge="!cart.count ? '' : cart.count" @click="goTo()" text="购物车" />
       <van-action-bar-button type="warning" @click="handleAddCart" text="加入购物车" />
@@ -51,17 +55,20 @@ const router = useRouter()
 const route = useRoute()
 const state = reactive({
   detail: {
-    goodsCarouselList: ['//s.weituibao.com/1583585285461/cs.png']
+    goodsCarouselList: ['//s.weituibao.com/1583585285461/cs.png'],
+    goodsName: 'iPhone 13 128GB 九成新',
+    sellingPrice: 3999,
+    goodsDetailContent: '<p>iPhone 13 128GB 九成新</p>'
   }
 })
 onMounted(async () => {
   // 从路由中提取商品 id 作为获取商品详情的参数
-  const { id } = route.params
-  const { data } = await getDetail(id)
-  console.log(data);
+  // const { id } = route.params
+  // const { data } = await getDetail(id)
+  // console.log(data);
   
-  state.detail = data
-  cart.updateCart() // 每次进入详情页的时候，默认更新一次购物车状态数据
+  // state.detail = data
+  // cart.updateCart() // 每次进入详情页的时候，默认更新一次购物车状态数据
 })
 const goBack = () => {
   router.back()
@@ -71,9 +78,12 @@ const goTo = () => {
 }
 const handleAddCart = async () => {
   // 添加购物车
-  const { data, resultCode } = await addCart({ goodsCount: 1, goodsId: state.detail.goodsId })
-  if (resultCode == 200) showSuccessToast('添加成功')
-  cart.updateCart() // 每次添加成功，更新一次购物车状态数据
+  // const { data, resultCode } = await addCart({ goodsCount: 1, goodsId: state.detail.goodsId })
+  // if (resultCode == 200) showSuccessToast('添加成功')
+  // cart.updateCart() // 每次添加成功，更新一次购物车状态数据
+  //使用pinia模拟添加购物车
+  cart.count++
+  showSuccessToast('添加成功')
 }
 const goToCart = async () => {
   // 前往购物车页面，此时还未创建购物车页面，先作占位
