@@ -1,6 +1,8 @@
 <template>
   <div class="user-box">
+    <!-- 用户头部 -->
     <s-header :name="'我的'"></s-header>
+    <!-- 用户信息 -->
     <div class="user-info">
       <div class="info">
         <img src="//s.weituibao.com/1583583975067/user-graduate%20(1).png" />
@@ -11,6 +13,7 @@
         </div>
       </div>
     </div>
+    <!-- 功能列表 -->
     <ul class="user-list">
       <li class="van-hairline--bottom" @click="goTo('/order')">
         <span>我的订单</span>
@@ -38,7 +41,11 @@ import { getUserInfo } from '@/service/user'
 import { useRouter } from 'vue-router'
 const router = useRouter()
 const state = reactive({
-  user: {} // 声明用户变量
+  user: {
+    nickName: '张三',
+    loginName: '13800138000',
+    introduceSign: '这个人很懒...'
+  } // 声明用户变量
 })
 onMounted(async () => {
   // const { data } = await getUserInfo() // 获取用户信息
@@ -105,6 +112,8 @@ const goTo = (r, query) => {
           color: #fff;
           font-size: 14px;
           padding: 2px 0;
+          display: flex;
+          justify-content: flex-start;
         }
       }
 

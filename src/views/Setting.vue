@@ -4,7 +4,8 @@
     <div class="input-item">
       <van-field v-model="state.nickName" label="昵称" />
       <van-field v-model="state.introduceSign" label="个性签名" />
-      <van-field v-model="state.password" type='password' label="修改密码" />
+      <!-- <van-field v-model="state.password" type='password' label="修改密码" />
+      <van-field v-model="state.passwordConfirm" type='password' label="确认密码" /> -->
     </div>
     <van-button round class="save-btn" color="#1baeae" type="primary" @click="save" block>保存</van-button>
     <van-button round class="save-btn" color="#1baeae" type="primary" @click="handleLogout" block>退出登录</van-button>
@@ -19,15 +20,16 @@ import { getUserInfo, EditUserInfo, logout } from '@/service/user'
 import { setLocal } from '@/common/js/utils'
 import { showSuccessToast } from 'vant'
 const state = reactive({
-  nickName: '',
-  introduceSign: '',
-  password: ''
+  nickName: '张三',
+  introduceSign: '这个人很懒...',
+  // password: '',
+  // passwordConfirm: ''
 })
 
 onMounted(async () => {
-  const { data } = await getUserInfo()
-  state.nickName = data.nickName
-  state.introduceSign = data.introduceSign
+  // const { data } = await getUserInfo()
+  // state.nickName = data.nickName
+  // state.introduceSign = data.introduceSign
 })
 
 const save = async () => {
@@ -56,6 +58,10 @@ const handleLogout = async () => {
   .save-btn {
     width: 80%;
     margin: 20px auto;
+  }
+
+  .input-item {
+    margin-top: 50px;
   }
 }
 </style>
