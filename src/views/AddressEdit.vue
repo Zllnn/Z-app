@@ -2,10 +2,15 @@
   <div class="address-edit-box">
     <!--新增和编辑使用同一个页面，所以根据 type 判断，是新增还是编辑，-->
     <s-header :name="`${state.type == 'add' ? '新增地址' : '编辑地址'}`"></s-header>
-    <!--Vant 提供的地址编辑组件，参数详情见官方文档https://vant-contrib.gitee.io/vant/#/zh-CN/address-edit-->
-    <van-address-edit class="edit" :area-list="state.areaList" :address-info="state.addressInfo"
-      :show-delete="state.type == 'edit'" show-set-default show-search-result :search-result="state.searchResult"
-      :area-columns-placeholder="['请选择', '请选择', '请选择']" @save="onSave" @delete="onDelete" />
+    <van-address-edit class="edit"
+     :area-list="state.areaList" 
+     :address-info="state.addressInfo"
+     :show-delete="state.type == 'edit'"
+     show-set-default
+     show-search-result
+     :search-result="state.searchResult"
+     :is-switch-default="state.isSwitchDefault"
+     :area-columns-placeholder="['请选择', '请选择', '请选择']" @save="onSave" @delete="onDelete" />
   </div>
 </template>
 
@@ -16,6 +21,8 @@ import sHeader from '@/components/SimpleHeader.vue'
 import { addAddress, EditAddress, DeleteAddress, getAddressDetail } from '@/service/address'
 import { tdist } from '@/common/js/utils'
 import { useRoute, useRouter } from 'vue-router'
+import { useCartStore } from '@/stores/cart'
+const cart = useCartStore()
 const route = useRoute()
 const router = useRouter()
 const state = reactive({
@@ -24,7 +31,8 @@ const state = reactive({
     city_list: {},
     county_list: {}
   },
-  searchResult: [],
+  searchResult: [], 
+  isSwitchDefault: false,
   type: 'add',
   addressId: '',
   addressInfo: {},
@@ -53,37 +61,46 @@ onMounted(async () => {
   state.addressId = addressId
   state.type = type
   state.from = from || ''
+  //如果是编辑，则通过id在pinia中获取地址信息
   if (type == 'edit') {
-    const { data: addressDetail } = await getAddressDetail(addressId)
-    //找出地区编码
-    let _areaCode = ''
-    const province = tdist.getLev1()
-    Object.entries(state.areaList.county_list).forEach(([id, text]) => {
-      // 先找出当前对应的区
-      if (text == addressDetail.regionName) {
-        // 找到区对应的几个省份
-        const provinceIndex = province.findIndex(item => item.id.substr(0, 2) == id.substr(0, 2))
-        // 找到区对应的几个市区
-        // eslint-disable-next-line no-unused-vars
-        const cityItem = Object.entries(state.areaList.city_list).filter(([cityId, cityName]) => cityId.substr(0, 4) == id.substr(0, 4))[0]
-        // 对比找到的省份和接口返回的省份是否相等，因为有一些区会重名
-        if (province[provinceIndex].text == addressDetail.provinceName && cityItem[1] == addressDetail.cityName) {
-          _areaCode = id
-        }
-      }
-    })
+    const address = cart.addressList.find(item => item.id == addressId)
     state.addressInfo = {
-      id: addressDetail.addressId,
-      name: addressDetail.userName,
-      tel: addressDetail.userPhone,
-      province: addressDetail.provinceName,
-      city: addressDetail.cityName,
-      county: addressDetail.regionName,
-      addressDetail: addressDetail.detailAddress,
-      areaCode: _areaCode,
-      isDefault: !!addressDetail.defaultFlag
+      id: address.id,
+      name: address.name,
+      tel: address.tel,
     }
   }
+  // if (type == 'edit') {
+  //   const { data: addressDetail } = await getAddressDetail(addressId)
+  //   //找出地区编码
+  //   let _areaCode = ''
+  //   const province = tdist.getLev1()
+  //   Object.entries(state.areaList.county_list).forEach(([id, text]) => {
+  //     // 先找出当前对应的区
+  //     if (text == addressDetail.regionName) {
+  //       // 找到区对应的几个省份
+  //       const provinceIndex = province.findIndex(item => item.id.substr(0, 2) == id.substr(0, 2))
+  //       // 找到区对应的几个市区
+  //       // eslint-disable-next-line no-unused-vars
+  //       const cityItem = Object.entries(state.areaList.city_list).filter(([cityId, cityName]) => cityId.substr(0, 4) == id.substr(0, 4))[0]
+  //       // 对比找到的省份和接口返回的省份是否相等，因为有一些区会重名
+  //       if (province[provinceIndex].text == addressDetail.provinceName && cityItem[1] == addressDetail.cityName) {
+  //         _areaCode = id
+  //       }
+  //     }
+  //   })
+  //   state.addressInfo = {
+  //     id: addressDetail.addressId,
+  //     name: addressDetail.userName,
+  //     tel: addressDetail.userPhone,
+  //     province: addressDetail.provinceName,
+  //     city: addressDetail.cityName,
+  //     county: addressDetail.regionName,
+  //     addressDetail: addressDetail.detailAddress,
+  //     areaCode: _areaCode,
+  //     isDefault: !!addressDetail.defaultFlag
+  //   }
+  // }
 })
 
 // 保存地址
@@ -95,12 +112,21 @@ const onSave = async (content) => {
     cityName: content.city,
     regionName: content.county,
     detailAddress: content.addressDetail,
-    defaultFlag: content.isDefault ? 1 : 0,
+    defaultFlag: content.isDefault ? true : false,
   }
   if (state.type == 'edit') {
     params['addressId'] = state.addressId
   }
-  await state.type == 'add' ? addAddress(params) : EditAddress(params)
+  // await state.type == 'add' ? addAddress(params) : EditAddress(params)
+  //保存在pinia中
+  const address = {
+    id: params.addressId,
+    name: params.userName,
+    tel: params.userPhone,
+    address: params.detailAddress,
+    isDefault: params.defaultFlag
+  }
+  cart.addressList.push(address)
   showToast('保存成功')
   setTimeout(() => {
     router.back()
@@ -116,7 +142,7 @@ const onDelete = async () => {
 }
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @import '../common/style/mixin';
 
 .edit {
@@ -125,6 +151,7 @@ const onDelete = async () => {
       height: 26px !important;
     }
   }
+  margin-top: 50px;
 }
 
 .address-edit-box {

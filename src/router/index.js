@@ -69,6 +69,11 @@ const router = createRouter({
       name: 'setting',
       component: () => import('@/views/Setting.vue')
     },
+    {
+      path: '/address-edit',
+      name: 'address-edit',
+      component: () => import('@/views/AddressEdit.vue')
+    }
   ]
 })
 

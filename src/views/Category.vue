@@ -12,7 +12,7 @@
       <list-scroll :scroll-data="state.categoryData" class="nav-side-wrapper">
         <ul class="nav-side">
           <li v-for="item in state.categoryData" :key="item.categoryId" v-text="item.categoryName"
-            :class="{ 'active': currentIndex == item.categoryId }" @click="selectMenu(item.categoryId)"></li>
+            :class="{ 'active': state.currentIndex == item.categoryId }" @click="selectMenu(item.categoryId)"></li>
         </ul>
       </list-scroll>
       <div class="search-content">

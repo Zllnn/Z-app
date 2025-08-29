@@ -17,7 +17,7 @@
     <!-- 显示商品栏 -->
     <div class="good">
       <div class="good-item" v-for="(item, index) in state.cartList" :key="index">
-        <div class="good-img"><img :src="$filters.prefix(item.goodsCoverImg)" alt=""></div>
+        <div class="good-img"><img :src="item.goodsCoverImg" alt=""></div>
         <div class="good-desc">
           <div class="good-title">
             <span>{{ item.goodsName }}</span>
@@ -58,13 +58,43 @@ import { showLoadingToast, closeToast, showSuccessToast } from 'vant'
 import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { getDefaultAddress, getAddressDetail } from '@/service/address'
-
+import { useCartStore } from '@/stores/cart'
+const cart = useCartStore()
 const router = useRouter()
 
 const route = useRoute()
 const state = reactive({
-  cartList: [], // 购物车列表
-  address: [], // 地址列表
+  cartList: [
+    {
+      cartItemId: 101,
+      goodsCoverImg: '/images/home/rec1.jpg',
+      goodsName: '演示商品一',
+      goodsCount: 1,
+      sellingPrice: 199
+    },
+    {
+      cartItemId: 102,
+      goodsCoverImg: '/images/home/rec2.jpg',
+      goodsName: '演示商品二',
+      goodsCount: 1,
+      sellingPrice: 89
+    },
+    {
+      cartItemId: 103,
+      goodsCoverImg: '/images/home/rec3.jpg',
+      goodsName: '演示商品三',
+      goodsCount: 1,
+      sellingPrice: 59
+    }
+  ], // 购物车列表
+  address: {
+    userName: '张三',
+    userPhone: '13800138000',
+    provinceName: '北京市',
+    cityName: '北京市',
+    regionName: '东城区',
+    detailAddress: '东城区东华门街道王府井大街88号'
+  }, // 地址列表
   showPay: false,
   orderNo: '',
   cartItemIds: []
@@ -75,23 +105,24 @@ onMounted(() => {
 })
 //初始化页面，通过ids获取数据然后进行渲染
 const init = async () => {
-  showLoadingToast({ message: '加载中...', forbidClick: true });
-  // 获取查询参数内的 id
-  const { addressId, cartItemIds } = route.query
-  // id 会本地存储，如果查询字符串 id 优先获取，若没有则获取本地存储的 ids
-  const _cartItemIds = cartItemIds ? JSON.parse(cartItemIds) : JSON.parse(getLocal('cartItemIds'))
-  setLocal('cartItemIds', JSON.stringify(_cartItemIds))
-  const { data: list } = await getByCartItemIds({ cartItemIds: _cartItemIds.join(',') })
-  // addressId 有的情况下，优先获取 addressId，否则获取默认地址接口
-  const { data: address } = addressId ? await getAddressDetail(addressId) : await getDefaultAddress()
-  // 如果没有地址列表，先前往地址列表页进行地址添加，这里先占位
-  if (!address) {
-    router.push({ path: '/address' })
-    return
-  }
-  state.cartList = list
-  state.address = address
-  closeToast()
+  // showLoadingToast({ message: '加载中...', forbidClick: true });
+  // // 获取查询参数内的 id
+  // const { addressId, cartItemIds } = route.query
+  // // id 会本地存储，如果查询字符串 id 优先获取，若没有则获取本地存储的 ids
+  // const _cartItemIds = cartItemIds ? JSON.parse(cartItemIds) : JSON.parse(getLocal('cartItemIds'))
+  // setLocal('cartItemIds', JSON.stringify(_cartItemIds))
+  // const { data: list } = await getByCartItemIds({ cartItemIds: _cartItemIds.join(',') })
+  // // addressId 有的情况下，优先获取 addressId，否则获取默认地址接口
+  // const { data: address } = addressId ? await getAddressDetail(addressId) : await getDefaultAddress()
+  // // 如果没有地址列表，先前往地址列表页进行地址添加，这里先占位
+  // if (!address) {
+  //   router.push({ path: '/address' })
+  //   return
+  // }
+  // state.cartList = list
+  // state.address = address
+  // closeToast()
+  state.address = cart.address
 }
 // 前往地址生成页
 const goTo = () => {

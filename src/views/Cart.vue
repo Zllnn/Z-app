@@ -1,12 +1,14 @@
 <template>
   <div class="cart-box">
+    <!-- 购物车头部 -->
     <s-header :name="'购物车'"></s-header>
+    <!-- 购物车商品列表 -->
     <div class="cart-body">
       <van-checkbox-group @change="groupChange" v-model="state.result" ref="checkboxGroup">
         <van-swipe-cell :right-width="50" v-for="(item, index) in state.list" :key="index">
           <div class="good-item">
             <van-checkbox :name="item.cartItemId" />
-            <div class="good-img"><img :src="$filters.prefix(item.goodsCoverImg)" alt=""></div>
+            <div class="good-img"><img :src="item.goodsCoverImg" alt=""></div>
             <div class="good-desc">
               <div class="good-title">
                 <span>{{ item.goodsName }}</span>
@@ -19,12 +21,14 @@
               </div>
             </div>
           </div>
+          <!-- 删除按钮 -->
           <template #right>
             <van-button square icon="delete" type="danger" class="delete-button" @click="deleteGood(item.cartItemId)" />
           </template>
         </van-swipe-cell>
       </van-checkbox-group>
     </div>
+    <!-- 底部结算栏 -->
     <van-submit-bar v-if="state.list.length > 0" class="submit-all van-hairline--top" :price="total * 100"
       button-text="结算" button-type="primary" @submit="onSubmit">
       <van-checkbox @click="allCheck" v-model:checked="state.checkAll">全选</van-checkbox>
@@ -47,32 +51,33 @@ import { useCartStore } from '@/stores/cart'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
-
+const cart = useCartStore()
 const state = reactive({
   list: [ // 购物车商品列表（演示用假数据）
     {
       cartItemId: 101,
-      goodsCoverImg: 'https://via.placeholder.com/100x100.png?text=Item+1',
+      goodsCoverImg: '/images/home/rec1.jpg',
       goodsName: '演示商品一',
       goodsCount: 1,
       sellingPrice: 199
     },
     {
       cartItemId: 102,
-      goodsCoverImg: 'https://via.placeholder.com/100x100.png?text=Item+2',
+      goodsCoverImg: '/images/home/rec2.jpg',
       goodsName: '演示商品二',
-      goodsCount: 2,
+      goodsCount: 1,
       sellingPrice: 89
     },
     {
       cartItemId: 103,
-      goodsCoverImg: 'https://via.placeholder.com/100x100.png?text=Item+3',
+      goodsCoverImg: '/images/home/rec3.jpg',
       goodsName: '演示商品三',
       goodsCount: 1,
       sellingPrice: 59
     }
   ],
   result: [], // 选中的购物车商品 id 数组，同时也使用这个来表示勾选上了 .用于计算总金额和删除商品
+  checkAll: true, // 全选状态
 })
 // 根据假数据初始化选中项
 state.result = state.list.map(item => item.cartItemId)
@@ -90,8 +95,10 @@ const init = async () => {
 }
 
 const deleteGood = async (id) => {
-  const { data } = await deleteCartItem(id)
-  cart.updateCart()
+  // const { data } = await deleteCartItem(id)
+  // cart.updateCart()  
+  //通过id删除测试数据中的商品
+  state.list = state.list.filter(item => item.cartItemId != id)
   init()
 }
 const onChange = async (value, detail) => {

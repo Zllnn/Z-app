@@ -174,7 +174,7 @@ const state = reactive({
     }
   ]
 }) 
-//onfresh函数调用则是刷新，可能是点击切换从第一页刷新，也可能是其他刷新方式
+//onfresh函数调用则是刷新(从第一页开始刷新)，可能是点击切换从第一页刷新，也可能是其他刷新方式
 const init = async () => {
   const { categoryId } = route.query
   
