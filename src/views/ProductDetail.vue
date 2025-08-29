@@ -93,8 +93,8 @@ const goToCart = async () => {
 }
 </script>
 
-<style lang="less">
-@import '../common/style/mixin';
+<style lang="scss">
+@use '../common/style/mixin.scss' as *;
 
 .product-detail {
   .detail-header {
@@ -102,11 +102,11 @@ const goToCart = async () => {
     top: 0;
     left: 0;
     z-index: 10000;
-    .fj();
-    .wh(100%, 44px);
+    @include fj();
+    @include wh(100%, 44px);
     line-height: 44px;
     padding: 0 10px;
-    .boxSizing();
+    @include boxSizing();
     color: #252525;
     background: #fff;
     border-bottom: 1px solid #dcdcdc;
@@ -145,7 +145,7 @@ const goToCart = async () => {
       }
 
       .product-price {
-        .fj();
+        @include fj();
 
         span:nth-child(1) {
           color: #F63515;
@@ -163,7 +163,7 @@ const goToCart = async () => {
       width: 100%;
 
       ul {
-        .fj();
+        @include fj();
         width: 100%;
         margin: 10px 0;
 
@@ -192,7 +192,7 @@ const goToCart = async () => {
   }
 
   .van-goods-action-button--warning {
-    background: linear-gradient(to right, #6bd8d8, @primary)
+    background: linear-gradient(to right, #6bd8d8, $primary)
   }
 
   .van-goods-action-button--danger {

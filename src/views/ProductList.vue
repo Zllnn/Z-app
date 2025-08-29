@@ -288,8 +288,8 @@ const changeTab = ({ name }) => {
 }
 </script>
 
-<style lang="less" scoped>
-@import '../common/style/mixin';
+<style lang="scss" scoped>
+@use '../common/style/mixin.scss' as *;
 
 .product-list-content {
   position: fixed;
@@ -300,18 +300,18 @@ const changeTab = ({ name }) => {
   background: #fff;
 
   .category-header {
-    .fj();
+    @include fj();
     width: 100%;
     height: 50px;
     line-height: 50px;
     padding: 0 15px;
-    .boxSizing();
+    @include boxSizing();
     font-size: 15px;
     color: #656771;
     z-index: 10000;
 
     &.active {
-      background: @primary;
+      background: $primary;
     }
 
     .icon-left {
@@ -327,7 +327,7 @@ const changeTab = ({ name }) => {
       padding: 5px 0;
       color: #232326;
       background: #F7F7F7;
-      .borderRadius(20px);
+      @include borderRadius(20px);
 
       .iconfont {
         padding: 0 5px 0 20px;
@@ -351,15 +351,15 @@ const changeTab = ({ name }) => {
       line-height: 28px;
       padding: 0 5px;
       color: #fff;
-      background: @primary;
-      .borderRadius(5px);
+      background: $primary;
+      @include borderRadius(5px);
       margin-top: 10px;
     }
   }
 }
 
 .content {
-  height: calc(~"(100vh - 80px)");
+  height: calc(100vh - 80px);
   overflow: hidden;
   overflow-y: scroll;
   margin-top: 78px;
@@ -368,7 +368,7 @@ const changeTab = ({ name }) => {
 
 .product-list-refresh {
   .product-item {
-    .fj();
+    @include fj();
     width: 100%;
     height: 140px;
     padding: 15px 0;
@@ -386,7 +386,7 @@ const changeTab = ({ name }) => {
       width: 140px;
       height: 140px;
       padding: 0 15px;
-      .boxSizing();
+      @include boxSizing();
 
       img {
         width: 100%;
@@ -414,7 +414,7 @@ const changeTab = ({ name }) => {
       height: 140px;
       padding: 10px;
       text-align: left;
-      .boxSizing();
+      @include boxSizing();
 
       p {
         margin: 0
@@ -453,7 +453,7 @@ const changeTab = ({ name }) => {
         gap: 8px;
 
         .price {
-          color: @primary;
+          color: $primary;
           font-size: 18px;
           font-weight: bold;
         }

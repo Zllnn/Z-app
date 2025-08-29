@@ -53,7 +53,7 @@ const handleLogout = async () => {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .seting-box {
   .save-btn {
     width: 80%;

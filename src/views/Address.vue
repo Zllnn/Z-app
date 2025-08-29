@@ -85,8 +85,8 @@ const select = (item, index) => {
 }
 </script>
 
-<style lang="less">
-@import '../common/style/mixin';
+<style lang="scss">
+@use '../common/style/mixin.scss' as *;
 
 .address-box {
   .van-radio__icon {
@@ -97,8 +97,8 @@ const select = (item, index) => {
     margin-top: 44px;
 
     .van-button {
-      background: @primary;
-      border-color: @primary;
+      background: $primary;
+      border-color: $primary;
     }
   }
 }

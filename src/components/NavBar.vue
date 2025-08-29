@@ -34,8 +34,8 @@ onMounted(() => {
 })
 </script>
 
-<style lang="less" scoped>
-@import '../common/style/mixin';
+<style lang="scss" scoped>
+@use '../common/style/mixin.scss' as *;
 .nav-bar {
   position: fixed;
   left: 0;
@@ -49,7 +49,7 @@ onMounted(() => {
 
   .nav-list {
     width: 100%;
-    .fj();
+    @include fj();
     flex-direction: row;
     padding: 0;
 
@@ -61,7 +61,7 @@ onMounted(() => {
       color: #666;
 
       &.router-link-active {
-        color: @primary;
+        color: $primary;
       }
 
       i {

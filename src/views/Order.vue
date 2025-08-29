@@ -41,17 +41,36 @@ const state = reactive({
   loading: false,
   finished: false,
   refreshing: false,
-  list: [],
+  list: [
+    {
+      orderNo: '1234567890',
+      orderStatusString: '待付款',
+      createTime: '2021-01-01 12:00:00',
+      newBeeMallOrderItemVOS: []
+    },
+    {
+      orderNo: '1234567890',
+      orderStatusString: '待付款',
+      createTime: '2021-01-01 12:00:00',
+      newBeeMallOrderItemVOS: []
+    },
+    {
+      orderNo: '1234567890',
+      orderStatusString: '待付款',
+      createTime: '2021-01-01 12:00:00',
+      newBeeMallOrderItemVOS: []
+    },
+  ],
   page: 1,
   totalPage: 0
 })
 
 const loadData = async () => {
-  const { data, data: { list } } = await getOrderList({ pageNumber: state.page, status: state.status })
-  state.list = state.list.concat(list)
-  state.totalPage = data.totalPage
+  // const { data, data: { list } } = await getOrderList({ pageNumber: state.page, status: state.status })
+  // state.list = state.list.concat(list)
+  // state.totalPage = data.totalPage
   state.loading = false;
-  if (state.page >= data.totalPage) state.finished = true
+  // if (state.page >= data.totalPage) state.finished = true
 }
 
 const onChangeTab = ({ name }) => {
@@ -75,7 +94,7 @@ const onLoad = () => {
     state.page = state.page + 1
   }
   if (state.refreshing) {
-    state.list = [];
+    // state.list = [];
     state.refreshing = false;
   }
   loadData()
@@ -90,8 +109,8 @@ const onRefresh = () => {
 }
 </script>
 
-<style lang="less" scoped>
-@import '../common/style/mixin';
+<style lang="scss" scoped>
+@use '../common/style/mixin.scss' as *;
 
 .order-box {
   .order-header {
@@ -99,11 +118,11 @@ const onRefresh = () => {
     top: 0;
     left: 0;
     z-index: 10000;
-    .fj();
-    .wh(100%, 44px);
+    @include fj();
+    @include wh(100%, 44px);
     line-height: 44px;
     padding: 0 10px;
-    .boxSizing();
+    @include boxSizing();
     color: #252525;
     background: #fff;
     border-bottom: 1px solid #dcdcdc;
@@ -126,7 +145,7 @@ const onRefresh = () => {
   }
 
   .content {
-    height: calc(~"(100vh - 70px)");
+    height: calc(100vh - 70px);
     overflow: hidden;
     overflow-y: scroll;
     margin-top: 44px;

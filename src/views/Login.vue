@@ -154,7 +154,7 @@ const onSubmit = async (values) => {
 }
 </script>
 
-<style lang="less" scoped>
+<style lang="scss" scoped>
 .login {
   min-height: 100vh;
   // background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(255, 255, 255, 0.8) 100%);

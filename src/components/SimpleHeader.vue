@@ -20,19 +20,19 @@ const goBack = () => {
 }
 </script>
 
-<style lang="less" scoped>
-@import '../common/style/mixin';
+<style lang="scss" scoped>
+@use '../common/style/mixin.scss' as *;
 
 .simple-header {
   position: fixed;
   top: 0;
   left: 0;
   z-index: 10000;
-  .fj();
-  .wh(100%, 44px);
+  @include fj();
+  @include wh(100%, 44px);
   line-height: 44px;
   padding: 0 10px;
-  .boxSizing();
+  @include boxSizing();
   color: #252525;
   background: #fff;
   border-bottom: 1px solid #dcdcdc;

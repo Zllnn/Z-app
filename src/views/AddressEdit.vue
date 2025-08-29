@@ -142,8 +142,8 @@ const onDelete = async () => {
 }
 </script>
 
-<style lang="less" scoped>
-@import '../common/style/mixin';
+<style lang="scss" scoped>
+@use '../common/style/mixin.scss' as *;
 
 .edit {
   .van-field__body {
@@ -157,12 +157,12 @@ const onDelete = async () => {
 .address-edit-box {
   .van-address-edit {
     .van-button--danger {
-      background: @primary;
-      border-color: @primary;
+      background: $primary;
+      border-color: $primary;
     }
 
     .van-switch--on {
-      background: @primary;
+      background: $primary;
     }
   }
 }

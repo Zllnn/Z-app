@@ -3,7 +3,7 @@
     <!-- 引入头部组件 -->
     <s-header :name="'生成订单'"></s-header>
     <!-- 显示地址栏 -->
-    <div class="address-wrap">
+    <div class="address-wrap" v-if="state.address">
       <div class="name" @click="goTo">
         <span>{{ state.address.userName }} </span>
         <span>{{ state.address.userPhone }}</span>
@@ -122,7 +122,9 @@ const init = async () => {
   // state.cartList = list
   // state.address = address
   // closeToast()
-  state.address = cart.address
+  if (cart.address) {
+    state.address = cart.address
+  }
 }
 // 前往地址生成页
 const goTo = () => {
@@ -139,13 +141,14 @@ const total = computed(() => {
 })
 
 const handleCreateOrder = async () => {
-  const params = {
-    addressId: state.address.addressId,
-    cartItemIds: state.cartList.map(item => item.cartItemId)
-  }
-  const { data } = await createOrder(params)
-  setLocal('cartItemIds', '')
-  state.orderNo = data
+  // const params = {
+  //   addressId: state.address.addressId,
+  //   cartItemIds: state.cartList.map(item => item.cartItemId)
+  // }
+  // const { data } = await createOrder(params)
+  // setLocal('cartItemIds', '')
+  // state.orderNo = data
+  
   state.showPay = true
 }
 
@@ -154,7 +157,7 @@ const close = () => {
 }
 // 模拟支付
 const handlePayOrder = async (type) => {
-  await payOrder({ orderNo: state.orderNo, payType: type })
+  // await payOrder({ orderNo: state.orderNo, payType: type })
   showSuccessToast('支付成功')
   setTimeout(() => {
     router.push({ path: '/order' })
@@ -162,8 +165,8 @@ const handlePayOrder = async (type) => {
 }
 </script>
 
-<style lang="less" scoped>
-@import '../common/style/mixin';
+<style lang="scss" scoped>
+@use '../common/style/mixin.scss' as *;
 
 .create-order {
   background: #f9f9f9;
@@ -214,7 +217,7 @@ const handlePayOrder = async (type) => {
 
     .good-img {
       img {
-        .wh(100px, 100px)
+        @include wh(100px, 100px)
       }
     }
 

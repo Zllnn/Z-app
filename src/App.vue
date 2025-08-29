@@ -23,8 +23,8 @@ router.beforeEach((to, from) => {
 </script>
 
 
-<style lang="less">
-@import '@/common/style/mixin';
+<style lang="scss">
+@use '@/common/style/mixin.scss' as *;
 html,
 body {
   height: 100%;

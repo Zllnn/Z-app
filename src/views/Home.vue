@@ -249,29 +249,29 @@ nextTick(() => {
 
 </script>
 
-<style lang="less" scoped>
-@import '../common/style/mixin';
+<style lang="scss" scoped>
+@use '../common/style/mixin.scss' as *;
 
 .home {
   .home-header {
     position: fixed;
     left: 0;
     top: 0;
-    .wh(100%, 50px);
-    .fj();
+    @include wh(100%, 50px);
+    @include fj();
     line-height: 50px;
     padding: 0 15px;
-    .boxSizing();
+    @include boxSizing();
     font-size: 15px;
     color: #fff;
     z-index: 10000;
 
     .nbmenu2 {
-      color: @primary;
+      color: $primary;
     }
 
     &.active {
-      background: @primary;
+      background: $primary;
 
       .nbmenu2 {
         color: #fff;
@@ -284,7 +284,7 @@ nextTick(() => {
 
     .header-search {
       display: flex;
-      .wh(74%, 20px);
+      @include wh(74%, 20px);
       line-height: 20px;
       margin: 10px 0;
       padding: 5px 0;
@@ -294,7 +294,7 @@ nextTick(() => {
 
       .app-name {
         padding: 0 10px;
-        color: @primary;
+        color: $primary;
         font-size: 20px;
         font-weight: bold;
         border-right: 1px solid #666;
@@ -313,7 +313,7 @@ nextTick(() => {
     }
 
     .login {
-      color: @primary;
+      color: $primary;
       line-height: 52px;
 
       .van-icon-manager-o {
@@ -322,7 +322,7 @@ nextTick(() => {
       }
     }
      &.active {
-       background: @primary;
+       background: $primary;
     
        .nbmenu2 {
          color: #fff;
@@ -347,7 +347,7 @@ nextTick(() => {
       text-align: center;
 
     img {
-      .wh(36px, 36px);
+      @include wh(36px, 36px);
       margin: 13px auto 8px auto;
     }
   }
@@ -358,7 +358,7 @@ nextTick(() => {
     height: 50px;
     line-height: 50px;
     text-align: center;
-    color: @primary;
+    color: $primary;
     font-size: 16px;
     font-weight: 500;
   }
@@ -390,7 +390,7 @@ nextTick(() => {
         }
 
         .price {
-          color: @primary;
+          color: $primary;
         }
       }
 

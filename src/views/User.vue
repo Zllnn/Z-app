@@ -57,8 +57,8 @@ const goTo = (r, query) => {
 }
 </script>
 
-<style lang="less" scoped>
-@import '../common/style/mixin';
+<style lang="scss" scoped>
+@use '../common/style/mixin.scss' as *;
 
 .user-box {
  .user-list {
@@ -81,7 +81,7 @@ const goTo = (r, query) => {
     width: 94%;
     margin: 10px;
     height: 115px;
-    background: linear-gradient(90deg, @primary, #51c7c7);
+    background: linear-gradient(90deg, $primary, #51c7c7);
     box-shadow: 0 2px 5px #269090;
     border-radius: 6px;
     margin-top: 50px;
@@ -92,10 +92,10 @@ const goTo = (r, query) => {
       width: 100%;
       height: 100%;
       padding: 25px 20px;
-      .boxSizing();
+      @include boxSizing();
 
       img {
-        .wh(60px, 60px);
+        @include wh(60px, 60px);
         border-radius: 50%;
         margin-top: 4px;
       }

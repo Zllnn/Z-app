@@ -267,8 +267,8 @@ const selectProduct = (item) => {
 }
 </script>
 
-<style lang="less" scoped>
-@import '../common/style/mixin';
+<style lang="scss" scoped>
+@use '../common/style/mixin.scss' as *;
 
 .category-box {
   .category-header {
@@ -276,8 +276,8 @@ const selectProduct = (item) => {
     position: fixed;
     left: 0;
     top: 0;
-    .fj();
-    .wh(100%, 50px);
+    @include fj();
+    @include wh(100%, 50px);
     line-height: 50px;
     padding: 0 15px;
     box-sizing: border-box;
@@ -286,7 +286,7 @@ const selectProduct = (item) => {
     z-index: 10000;
 
     &.active {
-      background: @primary;
+      background: $primary;
     }
 
     .icon-left {
@@ -317,7 +317,7 @@ const selectProduct = (item) => {
     }
   }
   .search-wrap {
-  .fj();
+  @include fj();
   width: 100%;
   margin-top: 50px;
   background: #F8F8F8;
@@ -329,7 +329,7 @@ const selectProduct = (item) => {
 
     .nav-side {
       width: 100%;
-      .boxSizing();
+      @include boxSizing();
       background: #F8F8F8;
 
       li {
@@ -340,7 +340,7 @@ const selectProduct = (item) => {
         font-size: 14px;
 
         &.active {
-          color: @primary;
+          color: $primary;
           background: #fff;
         }
       }
@@ -359,7 +359,7 @@ const selectProduct = (item) => {
       touch-action: pan-y;
     }
 
-    .boxSizing();
+    @include boxSizing();
 
     .swiper-container {
       width: 100%;
@@ -391,7 +391,7 @@ const selectProduct = (item) => {
             font-size: 15px;
 
             .product-img {
-              .wh(30px, 30px);
+              @include wh(30px, 30px);
             }
           }
         }

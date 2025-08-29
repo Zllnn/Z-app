@@ -1,0 +1,82 @@
+// Converted to SCSS syntax
+@use './base.scss' as *;
+
+$primary: #1baeae; // 主题色
+$orange: #FF6B01;
+$bc: #F7F7F7;
+$fc: #fff;
+
+@mixin bis($url) {
+  background-image: url(#{$url});
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+@mixin borderRadius($radius) {
+  -webkit-border-radius: $radius;
+  -moz-border-radius: $radius;
+  -ms-border-radius: $radius;
+  -o-border-radius: $radius;
+  border-radius: $radius;
+}
+
+@mixin border-1px($color) {
+  position: relative;
+
+  &:after {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid $color;
+    content: '';
+  }
+}
+
+@mixin allcover {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+@mixin center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@mixin ct {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@mixin cl {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@mixin wh($width, $height) {
+  width: $width;
+  height: $height;
+}
+
+@mixin sc($size, $color) {
+  font-size: $size;
+  color: $color;
+}
+
+@mixin boxSizing {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+@mixin fj($type: space-between) {
+  display: flex;
+  justify-content: $type;
+}
+

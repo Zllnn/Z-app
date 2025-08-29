@@ -180,8 +180,8 @@ const goTo = () => {
 }
 </script>
 
-<style lang="less" scoped>
-@import '../common/style/mixin';
+<style lang="scss" scoped>
+@use '../common/style/mixin.scss' as *;
 
 .cart-box {
   .cart-body {
@@ -193,7 +193,7 @@ const goTo = () => {
 
       .good-img {
         img {
-          .wh(100px, 100px)
+          @include wh(100px, 100px)
         }
       }
 

@@ -20,7 +20,7 @@ const goTo = (url) => {
 }
 </script>
 
-<style lang='less' scoped>
+<style lang='scss' scoped>
 .my-swipe .van-swipe-item {
   img {
     width: 100%;
