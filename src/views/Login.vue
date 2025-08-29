@@ -77,7 +77,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { showSuccessToast, showFailToast } from 'vant'
@@ -87,7 +87,19 @@ import { setLocal } from '@/common/js/utils'
 
 const router = useRouter()
 
-const state = reactive({
+interface LoginState {
+  //用于登录
+  username: string;
+  password: string;
+  //用于注册
+  username1: string;
+  password1: string;
+  password2: string;
+  type: 'login' | 'register';
+  loading: boolean;
+}
+
+const state = reactive<LoginState>({
   //用于登录
   username: '',
   password: '',
@@ -100,7 +112,7 @@ const state = reactive({
 })
 
 // 切换登录和注册模式
-const toggle = (type) => {
+const toggle = (type: 'login' | 'register') => {
   state.type = type
   // 清空表单
   state.username = ''
@@ -111,12 +123,12 @@ const toggle = (type) => {
 }
 
 // 验证密码一致性
-const validatePassword = (value) => {
+const validatePassword = (value: string) => {
   return value === state.password1
 }
 
 // 提交表单
-const onSubmit = async (values) => {
+const onSubmit = async (values: any) => {
   state.loading = true
   
   try {

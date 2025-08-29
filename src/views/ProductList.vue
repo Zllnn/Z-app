@@ -44,7 +44,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { search } from '@/service/good'
@@ -55,10 +55,10 @@ const state = reactive({
   searchBtn: false,
   seclectActive: false,
   refreshing: false,
-  list: [], 
+  list: [] as any[], 
   loading: false,
   finished: false,
-  productList: [],
+  productList: [] as any[],
   totalPage: 0,
   page: 1,
   orderBy: '',
@@ -240,7 +240,7 @@ const goBack = () => {
   router.go(-1)
 }
 
-const productDetail = (item) => {
+const productDetail = (item: any) => {
   router.push({ path: `/product/${item.goodsId}` })
 }
 
@@ -281,7 +281,7 @@ const onRefresh = () => {
   onLoad()
 }
 
-const changeTab = ({ name }) => {
+const changeTab = ({ name }: { name: any }) => {
   console.log('name', name)
   state.orderBy = name
   onRefresh()

@@ -12,14 +12,21 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, onMounted } from 'vue'
 // import md5 from 'js-md5'
 import sHeader from '@/components/SimpleHeader.vue'
 import { getUserInfo, EditUserInfo, logout } from '@/service/user'
 import { setLocal } from '@/common/js/utils'
 import { showSuccessToast } from 'vant'
-const state = reactive({
+interface UserState {
+  nickName: string;
+  introduceSign: string;
+  password?: string;
+  passwordConfirm?: string;
+}
+
+const state = reactive<UserState>({
   nickName: '张三',
   introduceSign: '这个人很懒...',
   // password: '',
@@ -33,7 +40,7 @@ onMounted(async () => {
 })
 
 const save = async () => {
-  const params = {
+  const params: Record<string, string> = {
     introduceSign: state.introduceSign,
     nickName: state.nickName
   }

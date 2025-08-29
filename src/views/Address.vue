@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, onMounted } from 'vue'
 import sHeader from '@/components/SimpleHeader.vue'
 import { getAddressList } from '@/service/address'
@@ -68,11 +68,11 @@ const onAdd = () => {
   router.push({ path: 'address-edit', query: { type: 'add', from: state.from } })
 }
 // 前往地址编辑页面
-const onEdit = (item) => {
+const onEdit = (item: any) => {
   router.push({ path: 'address-edit', query: { type: 'edit', addressId: item.id, from: state.from } })
 }
 // 选择某个地址后，跳回订单生成页面
-const select = (item, index) => {
+const select = (item: any, _index: any) => {
   cart.address = {
     userName: item.name,
     userPhone: item.tel,

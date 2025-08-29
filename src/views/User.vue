@@ -34,25 +34,36 @@
     </ul>
   </div>
 </template>
-<script setup>
+<script setup lang="ts">
 import { reactive, onMounted } from 'vue'
 import sHeader from '@/components/SimpleHeader.vue'
 import { getUserInfo } from '@/service/user'
 import { useRouter } from 'vue-router'
 const router = useRouter()
-const state = reactive({
+interface UserInfo {
+  nickName: string;
+  loginName: string;
+  introduceSign: string;
+}
+
+interface UserState {
+  user: UserInfo;
+}
+
+const state = reactive<UserState>({
   user: {
     nickName: '张三',
     loginName: '13800138000',
     introduceSign: '这个人很懒...'
   } // 声明用户变量
 })
+
 onMounted(async () => {
   // const { data } = await getUserInfo() // 获取用户信息
   // state.user = data
 })
 
-const goTo = (r, query) => {
+const goTo = (r: string, query?: Record<string, any>) => {
   router.push({ path: r, query: query || {} })
 }
 </script>

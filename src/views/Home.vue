@@ -67,7 +67,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, onMounted, nextTick } from 'vue'
 import { getLocal } from '@/common/js/utils'
 import { getHome } from '@/service/home'
@@ -75,7 +75,7 @@ import { showLoadingToast, closeToast, showToast } from 'vant'
 import Swiper from '@/components/Swiper.vue'
 import { useRouter } from 'vue-router'
 const router = useRouter()
-const goToDetail = (item) => {
+const goToDetail = (item: any) => {
   router.push({ path: `/product/${item.goodsId}` })
 }
 

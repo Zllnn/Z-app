@@ -14,7 +14,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, onMounted } from 'vue'
 import { showToast } from 'vant'
 import sHeader from '@/components/SimpleHeader.vue'
@@ -45,11 +45,11 @@ onMounted(async () => {
   let _city_list = {}
   let _county_list = {}
   //提取出省市区到变量中
-  tdist.getLev1().forEach(p => {
-    _province_list[p.id] = p.text
-    tdist.getLev2(p.id).forEach(c => {
-      _city_list[c.id] = c.text
-      tdist.getLev3(c.id).forEach(q => _county_list[q.id] = q.text)
+  tdist.getLev1().forEach((p: any) => {
+    (_province_list as any)[p.id] = p.text
+    tdist.getLev2(p.id).forEach((c: any) => {
+      (_city_list as any)[c.id] = c.text
+      tdist.getLev3(c.id).forEach((q: any) => (_county_list as any)[q.id] = q.text)
     })
   })
   state.areaList.province_list = _province_list
@@ -58,16 +58,18 @@ onMounted(async () => {
 
   //获取路由变量
   const { addressId, type, from } = route.query
-  state.addressId = addressId
-  state.type = type
-  state.from = from || ''
+  state.addressId = addressId as string
+  state.type = type as string
+  state.from = from as string || ''
   //如果是编辑，则通过id在pinia中获取地址信息
   if (type == 'edit') {
-    const address = cart.addressList.find(item => item.id == addressId)
-    state.addressInfo = {
-      id: address.id,
-      name: address.name,
-      tel: address.tel,
+    const address = cart.addressList.find((item: any) => item.id == addressId)
+    if (address) {
+      state.addressInfo = {
+        id: address.id,
+        name: address.name,
+        tel: address.tel,
+      }
     }
   }
   // if (type == 'edit') {
@@ -104,7 +106,7 @@ onMounted(async () => {
 })
 
 // 保存地址
-const onSave = async (content) => {
+const onSave = async (content: any) => {
   const params = {
     userName: content.name,
     userPhone: content.tel,
@@ -115,12 +117,12 @@ const onSave = async (content) => {
     defaultFlag: content.isDefault ? true : false,
   }
   if (state.type == 'edit') {
-    params['addressId'] = state.addressId
+    (params as any)['addressId'] = state.addressId
   }
   // await state.type == 'add' ? addAddress(params) : EditAddress(params)
   //保存在pinia中
   const address = {
-    id: params.addressId,
+    id: (params as any).addressId,
     name: params.userName,
     tel: params.userPhone,
     address: params.detailAddress,

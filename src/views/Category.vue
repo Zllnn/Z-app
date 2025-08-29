@@ -41,7 +41,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, onMounted, ref } from 'vue'
 import { getCategory } from "@/service/good"
 import { useRouter } from 'vue-router'
@@ -50,7 +50,7 @@ const router = useRouter()
 // composition API 获取 refs 的形式
 const searchWrap = ref(null)
 const state = reactive({
-  categoryData: [],
+  categoryData: [] as any[],
   currentIndex: 1,
   // 测试数据 - 校园二手商品分类
   mockCategoryData: [
@@ -258,11 +258,11 @@ onMounted(async () => {
   // }
   state.categoryData = state.mockCategoryData
 })
-const selectMenu = (index) => {
+const selectMenu = (index: any) => {
   state.currentIndex = index
 }
 //选择跳转函数
-const selectProduct = (item) => {
+const selectProduct = (item: any) => {
   router.push({ path: 'product-list', query: { categoryId: item.categoryId } })
 }
 </script>

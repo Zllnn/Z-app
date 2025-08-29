@@ -42,7 +42,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, onMounted, computed } from 'vue'
 import { showToast, showLoadingToast, closeToast, showFailToast } from 'vant'
 import sHeader from '@/components/SimpleHeader.vue'
@@ -76,7 +76,7 @@ const state = reactive({
       sellingPrice: 59
     }
   ],
-  result: [], // 选中的购物车商品 id 数组，同时也使用这个来表示勾选上了 .用于计算总金额和删除商品
+  result: [] as number[], // 选中的购物车商品 id 数组，同时也使用这个来表示勾选上了 .用于计算总金额和删除商品
   checkAll: true, // 全选状态
 })
 // 根据假数据初始化选中项
@@ -90,18 +90,18 @@ const init = async () => {
   showLoadingToast({ message: '加载中...', forbidClick: true });
   const { data } = await getCart({ pageNumber: 1 })
   state.list = data
-  state.result = data.map(item => item.cartItemId)
+  state.result = data.map((item: any) => item.cartItemId)
   closeToast()
 }
 
-const deleteGood = async (id) => {
+const deleteGood = async (id: any) => {
   // const { data } = await deleteCartItem(id)
   // cart.updateCart()  
   //通过id删除测试数据中的商品
   state.list = state.list.filter(item => item.cartItemId != id)
   init()
 }
-const onChange = async (value, detail) => {
+const onChange = async (value: any, detail: any) => {
   if (value > 5) {
     showFailToast('超出单个商品的最大购买数量')
     return
@@ -135,7 +135,7 @@ const onChange = async (value, detail) => {
 }
 
 // 多选变化时，整组的回调
-const groupChange = (result) => {
+const groupChange = (result: any) => {
   if (result.length == state.list.length) {
     state.checkAll = true
   } else {

@@ -29,7 +29,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive } from 'vue';
 import sHeader from '@/components/SimpleHeader.vue'
 import { getOrderList } from '@/service/order'
@@ -60,7 +60,7 @@ const state = reactive({
       createTime: '2021-01-01 12:00:00',
       newBeeMallOrderItemVOS: []
     },
-  ],
+  ] as any[],
   page: 1,
   totalPage: 0
 })
@@ -73,13 +73,13 @@ const loadData = async () => {
   // if (state.page >= data.totalPage) state.finished = true
 }
 
-const onChangeTab = ({ name }) => {
+const onChangeTab = ({ name }: { name: any }) => {
   // 这里 Tab 最好采用点击事件，@click，如果用 @change 事件，会默认进来执行一次。
   state.status = name
   onRefresh()
 }
 
-const goTo = (id) => {
+const goTo = (id: any) => {
   router.push({ path: '/order-detail', query: { id } })
 }
 

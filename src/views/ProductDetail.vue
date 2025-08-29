@@ -42,7 +42,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { reactive, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { getDetail } from '@/service/good'
