@@ -121,7 +121,7 @@ const onChange = async (value: any, detail: any) => {
     cartItemId: detail.name,
     goodsCount: value
   }
-  await modifyCart(params)
+  // await modifyCart(params)
   /**
    * 修改完成后，没有请求购物车列表，是因为闪烁的问题，
    * 这边手动给操作的购物车商品修改数据

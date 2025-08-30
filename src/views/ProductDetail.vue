@@ -52,7 +52,7 @@ import { showSuccessToast } from 'vant'
 import { useCartStore } from '@/stores/cart'
 const cart = useCartStore()
 const router = useRouter()
-const route = useRoute()
+// const route = useRoute()
 const state = reactive({
   detail: {
     goodsCarouselList: ['//s.weituibao.com/1583585285461/cs.png'],
@@ -70,9 +70,9 @@ onMounted(async () => {
   // state.detail = data
   // cart.updateCart() // 每次进入详情页的时候，默认更新一次购物车状态数据
 })
-const goBack = () => {
-  router.back()
-}
+// const goBack = () => {
+//   router.back()
+// }
 const goTo = () => {
   router.push({ path: '/cart' })
 }
@@ -87,8 +87,8 @@ const handleAddCart = async () => {
 }
 const goToCart = async () => {
   // 前往购物车页面，此时还未创建购物车页面，先作占位
-  const { data, resultCode } = await addCart({ goodsCount: 1, goodsId: state.detail.goodsId })
-  cart.updateCart() // 前往购物车页面前，再更新一次状态
+  // const { data, resultCode } = await addCart({ goodsCount: 1, goodsId: state.detail.goodsId })
+  // cart.updateCart() // 前往购物车页面前，再更新一次状态
   router.push({ path: '/cart' })
 }
 </script>
