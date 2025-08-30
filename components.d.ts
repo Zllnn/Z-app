@@ -15,5 +15,14 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SimpleHeader: typeof import('./src/components/SimpleHeader.vue')['default']
     Swiper: typeof import('./src/components/Swiper.vue')['default']
+    VanButton: typeof import('vant/es')['Button']
+    VanCheckbox: typeof import('vant/es')['Checkbox']
+    VanCheckboxGroup: typeof import('vant/es')['CheckboxGroup']
+    VanIcon: typeof import('vant/es')['Icon']
+    VanStepper: typeof import('vant/es')['Stepper']
+    VanSubmitBar: typeof import('vant/es')['SubmitBar']
+    VanSwipe: typeof import('vant/es')['Swipe']
+    VanSwipeCell: typeof import('vant/es')['SwipeCell']
+    VanSwipeItem: typeof import('vant/es')['SwipeItem']
   }
 }

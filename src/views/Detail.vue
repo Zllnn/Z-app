@@ -6,5 +6,5 @@
 </template>
 
 <script setup lang="ts">
-import sHeader from '@/components/SimpleHeader.vue'
+import sHeader from '@/components/SimpleHeader.vue' // 引入公共头部
 </script>
