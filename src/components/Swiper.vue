@@ -1,14 +1,14 @@
 <template>
   <van-swipe class="my-swipe" :autoplay="5000" indicator-color="#1baeae">
     <van-swipe-item v-for="(item, index) in props.list" :key="index">
-      <img :src="item.imgUrl" alt="" @click="goTo(item.redirectUrl)">
+      <img :src="item.carouselUrl" alt="" @click="goTo(item.redirectUrl)">
     </van-swipe-item>
   </van-swipe>
 </template>
 
 <script setup lang="ts">
 interface SwiperItem {
-  imgUrl: string;
+  carouselUrl: string;
   redirectUrl: string;
 }
 

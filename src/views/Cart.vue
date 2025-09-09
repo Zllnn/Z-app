@@ -52,55 +52,46 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const cart = useCartStore()
+
 const state = reactive({
-  list: [ // 购物车商品列表（演示用假数据）
-    {
-      cartItemId: 101,
-      goodsCoverImg: '/images/home/rec1.jpg',
-      goodsName: '演示商品一',
-      goodsCount: 1,
-      sellingPrice: 199
-    },
-    {
-      cartItemId: 102,
-      goodsCoverImg: '/images/home/rec2.jpg',
-      goodsName: '演示商品二',
-      goodsCount: 1,
-      sellingPrice: 89
-    },
-    {
-      cartItemId: 103,
-      goodsCoverImg: '/images/home/rec3.jpg',
-      goodsName: '演示商品三',
-      goodsCount: 1,
-      sellingPrice: 59
-    }
-  ],
+  list: [] as any[], // 购物车商品列表
   result: [] as number[], // 选中的购物车商品 id 数组，同时也使用这个来表示勾选上了 .用于计算总金额和删除商品
   checkAll: true, // 全选状态
 })
-// 根据假数据初始化选中项
-state.result = state.list.map(item => item.cartItemId)
+
 onMounted(() => {
   init()
 })
+
 const init = async () => {
-  // 已有演示数据则不请求接口
-  if (state.list.length > 0) return
   showLoadingToast({ message: '加载中...', forbidClick: true });
-  const { data } = await getCart({ pageNumber: 1 })
-  state.list = data
-  state.result = data.map((item: any) => item.cartItemId)
-  closeToast()
+  try {
+    const { data } = await getCart({ pageNumber: 1 })
+    state.list = data || []
+    state.result = data ? data.map((item: any) => item.cartItemId) : []
+    closeToast()
+  } catch (error) {
+    console.error('获取购物车数据失败:', error)
+    closeToast()
+    showFailToast('加载购物车失败')
+  }
 }
 
 const deleteGood = async (id: any) => {
-  // const { data } = await deleteCartItem(id)
-  // cart.updateCart()  
-  //通过id删除测试数据中的商品
-  state.list = state.list.filter(item => item.cartItemId != id)
-  init()
+  try {
+    await deleteCartItem(id)
+    cart.updateCart()
+    // 从本地列表中移除
+    state.list = state.list.filter(item => item.cartItemId != id)
+    // 从选中列表中移除
+    state.result = state.result.filter(item => item != id)
+    showToast('删除成功')
+  } catch (error) {
+    console.error('删除购物车商品失败:', error)
+    showFailToast('删除失败')
+  }
 }
+
 const onChange = async (value: any, detail: any) => {
   if (value > 5) {
     showFailToast('超出单个商品的最大购买数量')
@@ -110,28 +101,38 @@ const onChange = async (value: any, detail: any) => {
     showFailToast('商品不得小于0')
     return
   }
+  
   /**
    * 这里的操作是因为，后面修改购物车后，手动添加的计步器的数据，为了防止数据不对
    * 这边做一个拦截处理，如果点击的时候，购物车单项的 goodsCount 等于点击的计步器数字，
    * 那么就不再进行修改操作
   */
   if (state.list.find(item => item.cartItemId == detail.name)?.goodsCount == value) return
+  
   showLoadingToast({ message: '修改中...', forbidClick: true });
-  const params = {
-    cartItemId: detail.name,
-    goodsCount: value
-  }
-  // await modifyCart(params)
-  /**
-   * 修改完成后，没有请求购物车列表，是因为闪烁的问题，
-   * 这边手动给操作的购物车商品修改数据
-  */
-  state.list.forEach(item => {
-    if (item.cartItemId == detail.name) {
-      item.goodsCount = value
+  
+  try {
+    const params = {
+      cartItemId: detail.name,
+      goodsCount: value
     }
-  })
-  closeToast()
+    await modifyCart(params)
+    
+    /**
+     * 修改完成后，没有请求购物车列表，是因为闪烁的问题，
+     * 这边手动给操作的购物车商品修改数据
+     */
+    state.list.forEach(item => {
+      if (item.cartItemId == detail.name) {
+        item.goodsCount = value
+      }
+    })
+    closeToast()
+  } catch (error) {
+    console.error('修改购物车失败:', error)
+    closeToast()
+    showFailToast('修改失败')
+  }
 }
 
 // 多选变化时，整组的回调
@@ -153,8 +154,9 @@ const onSubmit = async () => {
     return
   }
   const params = JSON.stringify(state.result)
-  router.push({ path: '/create-order', query: { cartItemIds: params } }) // 占位
+  router.push({ path: '/create-order', query: { cartItemIds: params } })
 }
+
 // 全选/反选
 const allCheck = () => {
   if (!state.checkAll) {
@@ -163,6 +165,7 @@ const allCheck = () => {
     state.result = []
   }
 }
+
 // 计算总价
 const total = computed(() => {
   let sum = 0

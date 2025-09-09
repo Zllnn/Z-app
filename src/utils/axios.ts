@@ -6,7 +6,8 @@ import { showFailToast } from 'vant'
 // eslint-disable-next-line no-console
 console.log('import.meta.env', import.meta.env)
 
-axios.defaults.baseURL = import.meta.env.MODE === 'development' ? '//backend-api-01.newbee.ltd/api/v1' : '//backend-api-01.newbee.ltd/api/v1'
+// 修改为使用相对路径，这样请求会发送到当前运行的端口
+axios.defaults.baseURL = import.meta.env.MODE === 'development' ? '' : ''
 
 axios.defaults.withCredentials = true
 axios.defaults.headers['X-Requested-With'] = 'XMLHttpRequest'
@@ -19,15 +20,14 @@ axios.interceptors.response.use((res) => {
     showFailToast('服务端异常！')
     return Promise.reject(res)
   }
-  if (res.data.resultCode != 200) {
+  
+  // 调整响应拦截器以匹配我们的后端返回格式
+  // 我们的后端返回格式: {code: 1, message: "success", data: {...}}
+  if (res.data.code != 1) {
     if (res.data.message) showFailToast(res.data.message)
-    if (res.data.resultCode == 416) {
-      // 未登录可按需处理
-      // router.push({ path: '/login' })
-    }
-    if (res.data.data && window.location.hash == '#/login') {
-      localStorage.setItem('token', res.data.data)
-      axios.defaults.headers['token'] = res.data.data
+    if (res.data.code == 0) {
+      // 登录失败等错误情况
+      return Promise.reject(res.data)
     }
     return Promise.reject(res.data)
   }

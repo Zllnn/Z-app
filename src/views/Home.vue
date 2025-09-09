@@ -74,6 +74,7 @@ import { getHome } from '@/service/home'
 import { showLoadingToast, closeToast, showToast } from 'vant'
 import Swiper from '@/components/Swiper.vue'
 import { useRouter } from 'vue-router'
+
 const router = useRouter()
 const goToDetail = (item: any) => {
   router.push({ path: `/product/${item.goodsId}` })
@@ -82,160 +83,41 @@ const goToDetail = (item: any) => {
 const tips = () => {
   showToast('功能开发中，敬请期待')
 }
+
 const state = reactive({
   isLogin: false, // 是否已登录
-  swiperList: [
-    {
-      carouselId: 'swiper001',
-      imgUrl: '/images/home/swiper1.jpg',
-      redirectUrl: '/product/swiper001'
-    },
-    {
-      carouselId: 'swiper002',
-      imgUrl: '/images/home/swiper2.jpg',
-      redirectUrl: '/product/swiper002'
-    },
-    {
-      carouselId: 'swiper003',
-      imgUrl: '/images/home/swiper3.jpg',
-      redirectUrl: '/product/swiper003'
-    }
-  ], // 轮播图列表
-  categoryList: [  //中部导航栏
-    {
-      name: '校园超市',
-      imgUrl: '/images/home/category1.jpg',
-      categoryId: 100001
-    },
-    {
-      name: '校园地图',
-      imgUrl: '/images/home/category2.jpg',
-      categoryId: 100002
-    }, 
-     {
-      name: '快递服务',
-      imgUrl: '/images/home/category3.jpg',
-      categoryId: 100005
-    }, {
-      name: '校园卡充值',
-      imgUrl: '/images/home/category4.jpg',
-      categoryId: 100006
-    }, {
-      name: '9.9拼好物',
-      imgUrl: '/images/home/category5.jpg',
-      categoryId: 100007
-    }, {
-      name: '9.9拼好物',
-      imgUrl: '/images/home/category6.jpg',
-      categoryId: 100007
-    }, {
-      name: '9.9拼好物',
-      imgUrl: '/images/home/category7.jpg',
-      categoryId: 100007
-    },
-    {
-      name: '敬请期待',
-      imgUrl: '/images/home/category8.jpg',
-      categoryId: 100009
-    },
-  ],
-  hots: [
-    {
-      goodsId: 'hot001',
-      goodsName: '九成新自行车',
-      goodsCoverImg: '/images/home/hot1.jpg',
-      sellingPrice: 299
-    },
-    {
-      goodsId: 'hot002',
-      goodsName: '考研资料全套',
-      goodsCoverImg: '/images/home/hot2.jpg',
-      sellingPrice: 89
-    },
-    {
-      goodsId: 'hot003',
-      goodsName: '宿舍小冰箱',
-      goodsCoverImg: '/images/home/hot3.jpg',
-      sellingPrice: 199
-    },
-    {
-      goodsId: 'hot004',
-      goodsName: '二手吉他',
-      goodsCoverImg: '/images/home/hot4.jpg',
-      sellingPrice: 399
-    }
-  ], // 二手好物
-  newGoodses: [
-    {
-      goodsId: 'new001',
-      goodsName: '二手iPhone 12',
-      goodsCoverImg: '/images/home/new1.jpg',
-      sellingPrice: 2499
-    },
-    {
-      goodsId: 'new002',
-      goodsName: '笔记本电脑',
-      goodsCoverImg: '/images/home/new2.jpg',
-      sellingPrice: 1899
-    },
-    {
-      goodsId: 'new003',
-      goodsName: '宿舍台灯',
-      goodsCoverImg: '/images/home/new3.jpg',
-      sellingPrice: 59
-    },
-    {
-      goodsId: 'new004',
-      goodsName: '健身卡',
-      goodsCoverImg: '/images/home/new4.jpg',
-      sellingPrice: 199
-    }
-  ], // 热门推荐
-  recommends: [
-    {
-      goodsId: 'rec001',
-      goodsName: '蓝牙耳机',
-      goodsCoverImg: '/images/home/rec1.jpg',
-      sellingPrice: 129
-    },
-    {
-      goodsId: 'rec002',
-      goodsName: '宿舍电饭煲',
-      goodsCoverImg: '/images/home/rec2.jpg',
-      sellingPrice: 89
-    },
-    {
-      goodsId: 'rec003',
-      goodsName: '游戏手柄',
-      goodsCoverImg: '/images/home/rec3.jpg',
-      sellingPrice: 79
-    },
-    {
-      goodsId: 'rec004',
-      goodsName: '课外书籍',
-      goodsCoverImg: '/images/home/rec4.jpg',
-      sellingPrice: 29
-    }
-  ], // 最新上架
+  swiperList: [] as any[], // 轮播图列表
+  categoryList: [] as any[], //中部导航栏
+  hots: [] as any[], // 二手好物
+  newGoodses: [] as any[], // 热门推荐
+  recommends: [] as any[], // 最新上架
   headerScroll: false, // 滚动透明判断
 })
+
 onMounted(async () => {
   const token = getLocal('token')
   if (token) {
     state.isLogin = true
   }
-  // showLoadingToast({
-  //   message: '加载中...',
-  //   forbidClick: true //是否在加载弹窗时，禁止点击
-  // });
-  // const { data } = await getHome()
-  // //获取数据赋值
-  // state.swiperList = data.carousels
-  // state.swiperList = data.carousels
-  // state.newGoodses = data.newGoodses
-  // state.hots = data.hotGoodses
-  // state.recommends = data.recommendGoodses
-  // closeToast()
+  
+  showLoadingToast({
+    message: '加载中...',
+    forbidClick: true //是否在加载弹窗时，禁止点击
+  });
+  
+  try {
+    const { data } = await getHome()
+    //获取数据赋值
+    state.swiperList = data.carousels || []
+    state.newGoodses = data.newGoods || []
+    state.hots = data.hotGoods || []
+    state.recommends = data.recommendGoods || []
+    closeToast()
+  } catch (error) {
+    console.error('获取首页数据失败:', error)
+    closeToast()
+    showToast('数据加载失败')
+  }
 })
 
 // 必须要等到页面DOM渲染结束后再执行下面的方法，否则无效 ，对滚动条监听

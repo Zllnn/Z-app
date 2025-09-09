@@ -48,48 +48,92 @@ import { useRouter, useRoute } from 'vue-router'
 import { getDetail } from '@/service/good'
 import { addCart } from '@/service/cart'
 import sHeader from '@/components/SimpleHeader.vue'
-import { showSuccessToast } from 'vant'
+import { showSuccessToast, showFailToast, showLoadingToast, closeToast } from 'vant'
 import { useCartStore } from '@/stores/cart'
+
 const cart = useCartStore()
 const router = useRouter()
-// const route = useRoute()
+const route = useRoute()
+
 const state = reactive({
   detail: {
-    goodsCarouselList: ['//s.weituibao.com/1583585285461/cs.png'],
-    goodsName: 'iPhone 13 128GB 九成新',
-    sellingPrice: 3999,
-    goodsDetailContent: '<p>iPhone 13 128GB 九成新</p>'
+    goodsId: '',
+    goodsCarouselList: [] as string[],
+    goodsName: '',
+    sellingPrice: 0,
+    goodsDetailContent: ''
   }
 })
+
 onMounted(async () => {
-  // 从路由中提取商品 id 作为获取商品详情的参数
-  // const { id } = route.params
-  // const { data } = await getDetail(id)
-  // console.log(data);
-  
-  // state.detail = data
-  // cart.updateCart() // 每次进入详情页的时候，默认更新一次购物车状态数据
+  await initProductDetail()
 })
-// const goBack = () => {
-//   router.back()
-// }
+
+const initProductDetail = async () => {
+  try {
+    // 从路由中提取商品 id 作为获取商品详情的参数
+    const { id } = route.params
+    if (!id) {
+      showFailToast('商品ID不存在')
+      return
+    }
+    
+    showLoadingToast({ message: '加载中...', forbidClick: true })
+    const { data } = await getDetail(id)
+    console.log(data)
+    
+    state.detail = data
+    cart.updateCart() // 每次进入详情页的时候，默认更新一次购物车状态数据
+    closeToast()
+  } catch (error) {
+    console.error('获取商品详情失败:', error)
+    closeToast()
+    showFailToast('加载商品详情失败')
+  }
+}
+
 const goTo = () => {
   router.push({ path: '/cart' })
 }
+
 const handleAddCart = async () => {
-  // 添加购物车
-  // const { data, resultCode } = await addCart({ goodsCount: 1, goodsId: state.detail.goodsId })
-  // if (resultCode == 200) showSuccessToast('添加成功')
-  // cart.updateCart() // 每次添加成功，更新一次购物车状态数据
-  //使用pinia模拟添加购物车
-  cart.count++
-  showSuccessToast('添加成功')
+  try {
+    // 添加购物车
+    const { data, resultCode } = await addCart({ 
+      goodsCount: 1, 
+      goodsId: state.detail.goodsId 
+    })
+    
+    if (resultCode == 200) {
+      showSuccessToast('添加成功')
+      cart.updateCart() // 每次添加成功，更新一次购物车状态数据
+    } else {
+      showFailToast('添加失败')
+    }
+  } catch (error) {
+    console.error('添加购物车失败:', error)
+    showFailToast('添加失败')
+  }
 }
+
 const goToCart = async () => {
-  // 前往购物车页面，此时还未创建购物车页面，先作占位
-  // const { data, resultCode } = await addCart({ goodsCount: 1, goodsId: state.detail.goodsId })
-  // cart.updateCart() // 前往购物车页面前，再更新一次状态
-  router.push({ path: '/cart' })
+  try {
+    // 前往购物车页面前，先添加到购物车
+    const { data, resultCode } = await addCart({ 
+      goodsCount: 1, 
+      goodsId: state.detail.goodsId 
+    })
+    
+    if (resultCode == 200) {
+      cart.updateCart() // 前往购物车页面前，再更新一次状态
+      router.push({ path: '/cart' })
+    } else {
+      showFailToast('添加失败')
+    }
+  } catch (error) {
+    console.error('添加购物车失败:', error)
+    showFailToast('添加失败')
+  }
 }
 </script>
 

@@ -48,8 +48,11 @@
 import { reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { search } from '@/service/good'
+import { showToast } from 'vant'
+
 const route = useRoute()
 const router = useRouter()
+
 const state = reactive({
   keyword: route.query.keyword || '',
   searchBtn: false,
@@ -62,178 +65,38 @@ const state = reactive({
   totalPage: 0,
   page: 1,
   orderBy: '',
-  // 测试数据
-  mockProducts: [
-    {
-      goodsId: 1,
-      goodsName: 'iPhone 13 128GB 九成新',
-      goodsIntro: '毕业出售，无划痕，电池健康度90%，带原装充电器',
-      goodsCoverImg: '/images/home/hot1.jpg',
-      sellingPrice: 3999,
-      originalPrice: 5999,
-      tag: 'hot'
-    },
-    {
-      goodsId: 2,
-      goodsName: 'MacBook Air M1 13寸 八成新',
-      goodsIntro: '考研结束，电脑保养很好，适合学习办公，带保护壳',
-      goodsCoverImg: '/images/home/hot2.jpg',
-      sellingPrice: 4999,
-      originalPrice: 7999,
-      tag: 'hot'
-    },
-    {
-      goodsId: 3,
-      goodsName: 'AirPods 2代 九成新',
-      goodsIntro: '使用一年，音质完美，无杂音，带原装充电盒',
-      goodsCoverImg: '/images/home/hot3.jpg',
-      sellingPrice: 699,
-      originalPrice: 1299,
-      tag: 'hot'
-    },
-    {
-      goodsId: 4,
-      goodsName: 'iPad 2021 64GB 全新未拆',
-      goodsIntro: '抽奖获得，全新未拆封，支持Apple Pencil，价格实惠',
-      goodsCoverImg: '/images/home/hot4.jpg',
-      sellingPrice: 2499,
-      originalPrice: 3299,
-      tag: 'new'
-    },
-    {
-      goodsId: 5,
-      goodsName: 'Apple Watch SE 八成新',
-      goodsIntro: '运动手表，功能正常，表带可更换，适合健身使用',
-      goodsCoverImg: '/images/home/new1.jpg',
-      sellingPrice: 1299,
-      originalPrice: 1999,
-      tag: 'new'
-    },
-    {
-      goodsId: 6,
-      goodsName: 'Beats Solo3 九成新',
-      goodsIntro: '头戴式耳机，音质出色，续航持久，适合图书馆学习',
-      goodsCoverImg: '/images/home/new2.jpg',
-      sellingPrice: 899,
-      originalPrice: 1499,
-      tag: 'hot'
-    },
-    {
-      goodsId: 7,
-      goodsName: '机械键盘 全新',
-      goodsIntro: '青轴机械键盘，打字手感好，适合编程学习，全新未使用',
-      goodsCoverImg: '/images/home/new3.jpg',
-      sellingPrice: 299,
-      originalPrice: 499,
-      tag: 'new'
-    },
-    {
-      goodsId: 8,
-      goodsName: '小米音箱 八成新',
-      goodsIntro: '智能音箱，音质不错，支持语音控制，宿舍必备',
-      goodsCoverImg: '/images/home/new4.jpg',
-      sellingPrice: 199,
-      originalPrice: 299,
-      tag: 'hot'
-    },
-    {
-      goodsId: 9,
-      goodsName: '自行车 九成新',
-      goodsIntro: '捷安特山地车，毕业出售，车况良好，适合校园代步',
-      goodsCoverImg: '/images/home/category1.jpg',
-      sellingPrice: 599,
-      originalPrice: 1299,
-      tag: 'hot'
-    },
-    {
-      goodsId: 10,
-      goodsName: '显示器 24寸 八成新',
-      goodsIntro: 'AOC显示器，1080P分辨率，适合学习办公，带HDMI线',
-      goodsCoverImg: '/images/home/category2.jpg',
-      sellingPrice: 399,
-      originalPrice: 799,
-      tag: 'new'
-    },
-    {
-      goodsId: 11,
-      goodsName: '台灯 护眼 九成新',
-      goodsIntro: '飞利浦护眼台灯，光线柔和，适合夜间学习，带遥控器',
-      goodsCoverImg: '/images/home/category3.jpg',
-      sellingPrice: 89,
-      originalPrice: 199,
-      tag: 'hot'
-    },
-    {
-      goodsId: 12,
-      goodsName: '保温杯 全新',
-      goodsIntro: '象印保温杯，500ml容量，保温效果好，全新未使用',
-      goodsCoverImg: '/images/home/category4.jpg',
-      sellingPrice: 59,
-      originalPrice: 129,
-      tag: 'new'
-    }
-  ]
-}) 
+})
+
 //onfresh函数调用则是刷新(从第一页开始刷新)，可能是点击切换从第一页刷新，也可能是其他刷新方式
 const init = async () => {
   const { categoryId } = route.query
   
-  // 如果没有分类ID和关键词，使用测试数据
-  // if (!categoryId && !state.keyword) {
-    // 模拟API延迟
-    setTimeout(() => {
-      let filteredProducts = [...state.mockProducts]
-      
-      // 根据排序方式过滤数据
-      if (state.orderBy === 'new') {
-        filteredProducts = state.mockProducts.filter(item => item.tag === 'new')    //根据新品排序
-      } else if (state.orderBy === 'price') {
-        filteredProducts = state.mockProducts.sort((a, b) => a.sellingPrice - b.sellingPrice)  //根据价格排序
-      }
-      
-      // 模拟分页
-      const pageSize = 4
-      const start = (state.page - 1) * pageSize
-      const end = start + pageSize
-      const currentPageData = filteredProducts.slice(start, end)
-      
-      if (state.refreshing) {
-        state.productList = currentPageData
-      } else {
-        state.productList = state.productList.concat(currentPageData)
-      }
-      
-      state.totalPage = Math.ceil(filteredProducts.length / pageSize)
-      state.loading = false
-      
-      if (state.page >= state.totalPage) {
-        state.finished = true
-      }
-    }, 500)
-    return
-  // }
-  
-  // 如果有真实数据，使用原来的逻辑
-  // try {
-  //   const { data, data: { list } } = await search({ pageNumber: state.page, goodsCategoryId: categoryId, keyword: state.keyword, orderBy: state.orderBy })
+  try {
+    const { data, data: { list } } = await search({ 
+      pageNumber: state.page, 
+      goodsCategoryId: categoryId, 
+      keyword: state.keyword, 
+      orderBy: state.orderBy 
+    })
     
-  //   if (state.refreshing) {
-  //     state.productList = list
-  //   } else {
-  //     state.productList = state.productList.concat(list)
-  //   }
+    if (state.refreshing) {
+      state.productList = list
+    } else {
+      state.productList = state.productList.concat(list)
+    }
     
-  //   state.totalPage = data.totalPage
-  //   state.loading = false
+    state.totalPage = data.totalPage
+    state.loading = false
     
-  //   if (state.page >= data.totalPage) {
-  //     state.finished = true
-  //   }
-  // } catch (error) {
-  //   console.error('搜索失败:', error)
-  //   state.loading = false
-  //   state.finished = true
-  // }
+    if (state.page >= data.totalPage) {
+      state.finished = true
+    }
+  } catch (error) {
+    console.error('搜索失败:', error)
+    showToast('搜索失败，请重试')
+    state.loading = false
+    state.finished = true
+  }
 }
 
 const goBack = () => {
@@ -249,20 +112,6 @@ const getSearch = () => {
 }
 
 const onLoad = () => {
-  // 如果没有分类ID和关键词，使用测试数据逻辑
-  if (!route.query.categoryId && !state.keyword) {
-    if (!state.refreshing && state.page < state.totalPage) {   //翻页加载
-      state.page = state.page + 1
-    }
-    if (state.refreshing) {     //点击了切换之后，从头开始加载
-      state.productList = [];
-      state.refreshing = false;
-    }
-    init()
-    return
-  }
-  
-  // 原来的逻辑
   if (!state.refreshing && state.page < state.totalPage) {   //翻页加载
     state.page = state.page + 1
   }

@@ -30,47 +30,50 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { reactive, onMounted } from 'vue';
 import sHeader from '@/components/SimpleHeader.vue'
 import { getOrderList } from '@/service/order'
 import { useRouter } from 'vue-router'
+import { showToast, showLoadingToast, closeToast } from 'vant'
 
 const router = useRouter()
+
 const state = reactive({
   status: '',
   loading: false,
   finished: false,
   refreshing: false,
-  list: [
-    {
-      orderNo: '1234567890',
-      orderStatusString: '待付款',
-      createTime: '2021-01-01 12:00:00',
-      newBeeMallOrderItemVOS: []
-    },
-    {
-      orderNo: '1234567890',
-      orderStatusString: '待付款',
-      createTime: '2021-01-01 12:00:00',
-      newBeeMallOrderItemVOS: []
-    },
-    {
-      orderNo: '1234567890',
-      orderStatusString: '待付款',
-      createTime: '2021-01-01 12:00:00',
-      newBeeMallOrderItemVOS: []
-    },
-  ] as any[],
+  list: [] as any[],
   page: 1,
   totalPage: 0
 })
 
+onMounted(() => {
+  onRefresh()
+})
+
 const loadData = async () => {
-  // const { data, data: { list } } = await getOrderList({ pageNumber: state.page, status: state.status })
-  // state.list = state.list.concat(list)
-  // state.totalPage = data.totalPage
-  state.loading = false;
-  // if (state.page >= data.totalPage) state.finished = true
+  try {
+    const { data, data: { list } } = await getOrderList({ pageNumber: state.page, status: state.status })
+    
+    if (state.refreshing) {
+      state.list = list || []
+    } else {
+      state.list = state.list.concat(list || [])
+    }
+    
+    state.totalPage = data.totalPage || 0
+    state.loading = false
+    
+    if (state.page >= state.totalPage) {
+      state.finished = true
+    }
+  } catch (error) {
+    console.error('获取订单列表失败:', error)
+    showToast('加载订单失败')
+    state.loading = false
+    state.finished = true
+  }
 }
 
 const onChangeTab = ({ name }: { name: any }) => {
@@ -94,7 +97,7 @@ const onLoad = () => {
     state.page = state.page + 1
   }
   if (state.refreshing) {
-    // state.list = [];
+    state.list = [];
     state.refreshing = false;
   }
   loadData()
