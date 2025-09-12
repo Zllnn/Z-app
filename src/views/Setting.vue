@@ -52,11 +52,9 @@ const save = async () => {
 }
 
 const handleLogout = async () => {
-  const { resultCode } = await logout()
-  if (resultCode == 200) {
+    await logout()
     setLocal('token', '')
     window.location.href = '/home'
-  }
 }
 </script>
 

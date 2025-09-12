@@ -99,12 +99,12 @@ const goTo = () => {
 const handleAddCart = async () => {
   try {
     // 添加购物车
-    const { data, resultCode } = await addCart({ 
+    const { data, code } = await addCart({ 
       goodsCount: 1, 
       goodsId: state.detail.goodsId 
     })
     
-    if (resultCode == 200) {
+    if (code == 1) {
       showSuccessToast('添加成功')
       cart.updateCart() // 每次添加成功，更新一次购物车状态数据
     } else {

@@ -108,6 +108,7 @@ onMounted(async () => {
   try {
     const { data } = await getHome()
     //获取数据赋值
+    state.categoryList = data.categories || []
     state.swiperList = data.carousels || []
     state.newGoodses = data.newGoods || []
     state.hots = data.hotGoods || []

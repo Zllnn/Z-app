@@ -4,8 +4,8 @@ export function getCategory() {
   return axios.get('/categories')
 }
 
-export function search(_params: any) {
-  // return axios.get('/search', { params });
+export function search(params: any) {
+  return axios.get('/search', { params });
 }
 
 //获取商品详情

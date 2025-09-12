@@ -112,10 +112,10 @@ const getSearch = () => {
 }
 
 const onLoad = () => {
-  if (!state.refreshing && state.page < state.totalPage) {   //翻页加载
+  if (!state.refreshing && state.page < state.totalPage) {   //翻页加载，不是刷新
     state.page = state.page + 1
   }
-  if (state.refreshing) {     //点击了切换之后，从头开始加载
+  if (state.refreshing) {     //点击了切换之后，就刷新页面，从头开始加载
     state.productList = [];
     state.refreshing = false;
   }

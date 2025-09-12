@@ -9,6 +9,48 @@ export default [
         code: 1,
         message: '获取成功',
         data: {
+          categories: [
+            {
+              categoryId: 1,
+              name: "电子产品",
+              imgUrl: "/images/home/category1.jpg"
+            },
+            {
+              categoryId: 2,
+              name: "书籍教材",
+              imgUrl: "/images/home/category2.jpg"
+            },
+            {
+              categoryId: 3,
+              name: "生活用品",
+              imgUrl: "/images/home/category3.jpg"
+            },
+            {
+              categoryId: 4,
+              name: "体育用品",
+              imgUrl: "/images/home/category4.jpg"
+            },
+            {
+              categoryId: 5,
+              name: "服饰鞋包",
+              imgUrl: "/images/home/category5.jpg"
+            },
+            {
+              categoryId: 6,
+              name: "美妆护肤",
+              imgUrl: "/images/home/category6.jpg"
+            },
+            {
+              categoryId: 7,
+              name: "学习用品",
+              imgUrl: "/images/home/category7.jpg"
+            },
+            {
+              categoryId: 8,
+              name: "其他",
+              imgUrl: "/images/home/category8.jpg"
+            }
+          ],
           carousels: [
             {
               carouselId: 1,

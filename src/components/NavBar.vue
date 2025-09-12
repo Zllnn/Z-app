@@ -25,11 +25,24 @@
 import { onMounted } from 'vue'
 import { useCartStore } from '@/stores/cart'
 import { getLocal } from '@/common/js/utils'
+import { useRouter } from 'vue-router'
 const cart = useCartStore()
 onMounted(() => {
   const token = getLocal('token')
   if (token) {
     cart.updateCart()
+  }
+})
+//在跳转的时候进行判断，有的页面未登录不能跳转
+const router = useRouter()
+router.beforeEach((to: any, _from: any) => {
+  const token = getLocal('token')
+  if (to.name === 'cart' && !token) {
+    router.push('/login')
+  }
+  //去个人页面需要判断是否登录
+  if (to.name === 'user' && !token) {
+    router.push('/login')
   }
 })
 </script>

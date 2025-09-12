@@ -59,8 +59,8 @@ const state = reactive<UserState>({
 })
 
 onMounted(async () => {
-  // const { data } = await getUserInfo() // 获取用户信息
-  // state.user = data
+  const { data } = await getUserInfo() // 获取用户信息
+  state.user = data
 })
 
 const goTo = (r: string, query?: Record<string, any>) => {

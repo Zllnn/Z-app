@@ -17,7 +17,6 @@ app.use(Form).use(Field).use(Toast).use(Button).use(Icon).use(Swipe).use(SwipeCe
 // 添加全局状态管理pinia
 app.use(createPinia())
 // 规范图片路径
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 ;(app.config.globalProperties as any).$filters = {
   prefix(url: string) {
     if (url && url.startsWith('http')) {

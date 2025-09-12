@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-// @ts-nocheck
+
 import { reactive, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
@@ -27,6 +27,7 @@ const cachedComponents = computed(() => {
   return components
 })
 
+//路由前置守卫判断页面是否需要导航栏
 router.beforeEach((to: any, _from: any) => {
   // 如果前往的页面是在 needNavList 数组内的，则显示导航
   if (to.name && needNavList.includes(to.name as string)) {
