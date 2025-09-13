@@ -116,15 +116,16 @@ const handleAddCart = async () => {
   }
 }
 
+//立即购买
 const goToCart = async () => {
   try {
     // 前往购物车页面前，先添加到购物车
-    const { data, resultCode } = await addCart({ 
+    const { data, code } = await addCart({ 
       goodsCount: 1, 
       goodsId: state.detail.goodsId 
     })
     
-    if (resultCode == 200) {
+    if (code == 1) {
       cart.updateCart() // 前往购物车页面前，再更新一次状态
       router.push({ path: '/cart' })
     } else {

@@ -21,7 +21,7 @@
             </div>
             <van-card v-for="one in item.newBeeMallOrderItemVOS" :key="one.orderId" :num="one.goodsCount"
               :price="one.sellingPrice" desc="全场包邮" :title="one.goodsName"
-              :thumb="$filters.prefix(one.goodsCoverImg)" />
+              :thumb="one.goodsCoverImg" />
           </div>
         </van-list>
       </van-pull-refresh>

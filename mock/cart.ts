@@ -6,7 +6,7 @@ const mockCartItems = [
     goodsId: 1001,
     goodsName: "二手iPhone 13",
     goodsCoverImg: "/images/home/hot1.jpg",
-    sellingPrice: 3999,
+    sellingPrice: 2999,
     goodsCount: 1
   },
   {
@@ -14,7 +14,7 @@ const mockCartItems = [
     goodsId: 1002,
     goodsName: "二手MacBook Pro",
     goodsCoverImg: "/images/home/hot2.jpg",
-    sellingPrice: 8999,
+    sellingPrice: 3999,
     goodsCount: 1
   },
   {
@@ -30,7 +30,7 @@ const mockCartItems = [
     goodsId: 3001,
     goodsName: "蓝牙耳机",
     goodsCoverImg: "/images/home/rec1.jpg",
-    sellingPrice: 699,
+    sellingPrice: 99,
     goodsCount: 1
   },
   {
@@ -104,6 +104,19 @@ export default [
           message: '删除失败，请检查参数',
           data: null
         }
+      }
+    }
+  },
+  {
+    url:'/shop-cart/settle',
+    method: 'get',
+    response: ({ query }) => {
+      const { cartItemIds } =query
+      mockCartItems.filter(item => cartItemIds.includes(item.cartItemId))
+      return {
+        code: 1,
+        message: '获取成功',
+        data: mockCartItems
       }
     }
   }

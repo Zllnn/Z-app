@@ -10,7 +10,8 @@ const mockGoods = [
     sellingPrice: 3999,
     originalPrice: 5999,
     tag: "数码产品",
-    goodsDetailContent: "这是一台95新的iPhone 13，128GB存储，无锁版本，适合学生使用。毕业出售，无划痕，电池健康度90%，带原装充电器。"
+    //在富文本编辑器的返回值中添加一些html和css和图片
+    goodsDetailContent:"<p>这是一台95新的iPhone 13，128GB存储，无锁版本，适合学生使用。毕业出售，无划痕，电池健康度90%，带原装充电器。</p>"
   },
   {
     goodsId: 1002,

@@ -105,13 +105,13 @@ onMounted(() => {
 })
 //初始化页面，通过ids获取数据然后进行渲染
 const init = async () => {
-  // showLoadingToast({ message: '加载中...', forbidClick: true });
+  showLoadingToast({ message: '加载中...', forbidClick: true });
   // // 获取查询参数内的 id
-  // const { addressId, cartItemIds } = route.query
+  const { addressId, cartItemIds } = route.query
   // // id 会本地存储，如果查询字符串 id 优先获取，若没有则获取本地存储的 ids
-  // const _cartItemIds = cartItemIds ? JSON.parse(cartItemIds) : JSON.parse(getLocal('cartItemIds'))
-  // setLocal('cartItemIds', JSON.stringify(_cartItemIds))
-  // const { data: list } = await getByCartItemIds({ cartItemIds: _cartItemIds.join(',') })
+  const _cartItemIds = cartItemIds ? JSON.parse(cartItemIds) : JSON.parse(getLocal('cartItemIds'))
+  setLocal('cartItemIds', JSON.stringify(_cartItemIds))
+  const { data } = await getByCartItemIds({ cartItemIds: _cartItemIds.join(',') })
   // // addressId 有的情况下，优先获取 addressId，否则获取默认地址接口
   // const { data: address } = addressId ? await getAddressDetail(addressId) : await getDefaultAddress()
   // // 如果没有地址列表，先前往地址列表页进行地址添加，这里先占位
@@ -119,7 +119,7 @@ const init = async () => {
   //   router.push({ path: '/address' })
   //   return
   // }
-  // state.cartList = list
+  state.cartList = data
   // state.address = address
   // closeToast()
   if (cart.address) {

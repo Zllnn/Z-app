@@ -116,7 +116,9 @@ const onChange = async (value: any, detail: any) => {
       cartItemId: detail.name,
       goodsCount: value
     }
-    await modifyCart(params)
+    //没有写删除的接口，所以这里只能进行手动更改商品数量
+    // await modifyCart(params)
+    
     
     /**
      * 修改完成后，没有请求购物车列表，是因为闪烁的问题，
