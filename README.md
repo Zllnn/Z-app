@@ -26,10 +26,3 @@
 
 
 
-![image-20250927220046228](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250927220046228.png)
-
-![image-20250927220058303](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250927220058303.png)
-
-![image-20250927220108363](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250927220108363.png)
-
-![image-20250927220123830](C:\Users\lenovo\AppData\Roaming\Typora\typora-user-images\image-20250927220123830.png)
